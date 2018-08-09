@@ -6,7 +6,6 @@
 
 <script>
     export default {
-        name: "Day"
         
     }
 </script>
