@@ -32,7 +32,7 @@ export default {
 .header {
   min-height: 150px;
   padding: 0 0 0 40px;
-  background-image: linear-gradient(to right,rgba(62,175,124,.4),rgba(62,175,124,.6)), url("../assets/planner.jpg");
+  background-image: linear-gradient(to right,rgba(62,175,124,.5),rgba(62,175,124,.5)), url("../assets/planner.jpg");
   background-size: cover;
   background-position: center;
   margin-bottom: 5px;
@@ -42,6 +42,7 @@ export default {
 }
 .header-title {
   font-size: 50px;
+  font-family: 'Dancing Script', cursive;
 }
 .week {
   display: grid;
@@ -50,7 +51,7 @@ export default {
   margin: 0 5px;
 }
 .day {
-  border: 1px solid #333;
+  border: 1px solid #bbb;
   height: 80vh;
 }
 

@@ -5,7 +5,37 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    days: [
+      {
+        name: 'Monday',
+        type: 'weekday'
+      },
+      {
+        name: 'Tuesday',
+        type: 'weekday'
+      },
+      {
+        name: 'Wednesday',
+        type: 'weekday'
+      },
+      {
+        name: 'Thursday',
+        type: 'weekday'
+      },
+      {
+        name: 'Friday',
+        type: 'weekday'
+      },
+      {
+        name: 'Saturday',
+        type: 'weekend'
+      },
+      {
+        name: 'Sunday',
+        type: 'weekend'
+      }
+    ],
+
     tasks: [
       {
         task: 'Learn Vue',
@@ -19,6 +49,11 @@ const store = new Vuex.Store({
     meals: [],
     recipes: [],
     users: []
+  },
+  mutations: {
+    addNewTask (state, task) {
+      state.tasks.push(task);
+    }
   }
 });
 

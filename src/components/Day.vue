@@ -1,13 +1,13 @@
 <template>
     <div class="day">
-        <h1>{{day}}</h1>
+        <h1 class="day-name">{{day.name}}</h1>
         <input  type="text" 
                 placeholder="New task" 
                 v-model="taskName">
-        <i  class="fas fa-plus-square btn-add"
-            v-on:click="createNewTask()"></i>
+        <div class="btn-add" v-on:click="createNewTask()">
+            <i class="fas fa-plus btn-add-icon"></i>
+        </div >
         <p>{{newTask.name}}</p>
-        <p>{{newTask.day}}</p>
         <ul>
             <li v-for="task in todaysTasks" class="task">
                 {{task.task}}
@@ -27,15 +27,13 @@ export default {
   },
   methods: {
       createNewTask: function() {
-          this.newTask = {
-              name: this.taskName,
-              day: this.day
-          }
+        this.$store.commit('addNewTask', {task: this.taskName, day: this.day.name});
+        this.taskName = "";
       }
   },
   computed: {
       todaysTasks: function() {
-          return this.$store.state.tasks.filter(task => task.day === this.day);
+        return this.$store.state.tasks.filter(task => task.day === this.day.name);
       }
   },
   props: ['day']
@@ -46,6 +44,9 @@ export default {
 .day {
     background-color: #fff;
 }
+.day-name {
+    font-family: 'Dancing Script', cursive;
+}
 ul {
     padding: 0;
 }
@@ -54,14 +55,28 @@ ul {
     font-size: 30px;
 }
 .btn-add {
-    font-size: 48px;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    height: 40px;
+    width: 40px;
+    padding-top: 8px;
+}
+.btn-add-icon {
+    font-size: 30px;
+    color: #3eaf7c;
+    transition: .2s;
+}
+.btn-add-icon:hover {
+    color: #ff5252;
 }
 input[type="text"] {
     display: inline-block;
-    width: 70%;
+    vertical-align: top;
+    width: 50%;
     height: 34px;
     padding: 6px 12px;
-    margin: auto;
+    margin: 0 0 0 10px;
     text-align: left;
     font-size: 14px;
     line-height: 1.42857143;

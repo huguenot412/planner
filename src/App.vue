@@ -14,9 +14,10 @@ export default {
 body {
   background-color: #fff;
   margin: 0;
+  color: #333;
 }
 #app {
-  font-family: 'Dancing Script', cursive;
+  font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
