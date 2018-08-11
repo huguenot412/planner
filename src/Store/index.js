@@ -36,19 +36,23 @@ const store = new Vuex.Store({
       }
     ],
 
-    tasks: [
-      {
-        task: 'Learn Vue',
-        day: 'Monday'
-      },
-      {
-        task: 'bake cookies',
-        day: 'Friday'
-      }
-    ],
+    tasks: [],
     meals: [],
     recipes: [],
-    users: []
+    users: [
+      {
+        name: 'Chris',
+        tasks: [],
+        meals: [],
+        activities: []
+      },
+      {
+        name: 'Olivia',
+        tasks: [],
+        meals: [],
+        activities: []
+      }
+    ]
   },
   mutations: {
     addNewTask (state, task) {

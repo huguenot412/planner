@@ -30,7 +30,7 @@ export default {
 <style scoped>
 
 .header {
-  min-height: 150px;
+  min-height: 80px;
   padding: 0 0 0 40px;
   background-image: linear-gradient(to right,rgba(62,175,124,.5),rgba(62,175,124,.5)), url("../assets/planner.jpg");
   background-size: cover;
@@ -43,6 +43,7 @@ export default {
 .header-title {
   font-size: 50px;
   font-family: 'Dancing Script', cursive;
+  margin: 10px 0;
 }
 .week {
   display: grid;
