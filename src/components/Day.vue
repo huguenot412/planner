@@ -9,8 +9,8 @@
         </div >
         <p>{{newTask.name}}</p>
         <ul>
-            <li v-for="task in todaysTasks" class="task" v-bind:class="{ completed: task.completed }">
-                {{task.task}}
+            <li v-for="task in todaysTasks" class="task">
+                <p v-bind:class="{ completed: task.completed }">{{task.task}}</p>
                 <Complete :task="task"></Complete>
                 <Remove :task="task"></Remove>
             </li>
@@ -72,7 +72,12 @@ ul {
 }
 .task {
     list-style: none;
+}
+.task p {
     font-size: 30px;
+    display: inline-block; 
+    margin: 0;
+    
 }
 .completed {
     text-decoration: line-through;

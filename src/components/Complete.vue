@@ -1,5 +1,5 @@
 <template>
-    <div class="btn-remove" v-on:click="checkOff()">
+    <div class="btn-complete" v-on:click="checkOff()">
         <i class="fas fa-check"></i>
     </div>
 </template>
@@ -23,13 +23,17 @@
 
 <style scoped>
 
-.btn-remove {
+.btn-complete {
     display: inline-block;
     font-size: 15px;
+    text-align: center;
+    height: 30px;
+    width: 20px;
     vertical-align: middle;
+    margin-left: 3px;
 }
 
-.btn-remove:hover {
+.btn-complete:hover {
     color: #3eaf7c;
 }
 
