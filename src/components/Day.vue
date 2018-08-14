@@ -11,12 +11,14 @@
         <ul>
             <li v-for="task in todaysTasks" class="task">
                 {{task.task}}
+                <Remove :task="task"></Remove>
             </li>
         </ul>
     </div>
 </template>
 
 <script>
+import Remove from './Remove';
 export default {
   name: 'Day',
   data() {
@@ -27,8 +29,15 @@ export default {
   },
   methods: {
       createNewTask: function() {
-        this.$store.commit('addNewTask', {task: this.taskName, day: this.day.name});
-        this.taskName = "";
+        if(this.taskName !== "") {
+            this.$store.commit('addNewTask', 
+                {
+                    task: this.taskName, 
+                    day: this.day.name,
+                    id: Symbol('task')
+                });
+            this.taskName = "";
+        }       
       }
   },
   computed: {
@@ -36,7 +45,10 @@ export default {
         return this.$store.state.tasks.filter(task => task.day === this.day.name);
       }
   },
-  props: ['day']
+  props: ['day'],
+  components: {
+      Remove
+  }
 };
 </script>
 

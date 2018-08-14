@@ -57,6 +57,12 @@ const store = new Vuex.Store({
   mutations: {
     addNewTask (state, task) {
       state.tasks.push(task);
+    },
+    deleteItem (state, id) {
+      state.tasks = state.tasks.filter( task => {
+        console.log(id);
+        return task.id !== id;
+      });
     }
   }
 });
