@@ -58,11 +58,15 @@ const store = new Vuex.Store({
     addNewTask (state, task) {
       state.tasks.push(task);
     },
-    deleteItem (state, id) {
-      state.tasks = state.tasks.filter( task => {
-        console.log(id);
-        return task.id !== id;
+    deleteItem (state, item) {
+      state[item.array] = state[item.array].filter( task => {
+        return task.id !== item.id;
       });
+    },
+    checkOff (state, item) {
+      item.completed = !item.completed;
+      // let completedTask = state.tasks.find(task => task.id = item.id);
+      // completedTask.completed = true;
     }
   }
 });

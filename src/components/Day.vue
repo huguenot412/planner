@@ -9,8 +9,9 @@
         </div >
         <p>{{newTask.name}}</p>
         <ul>
-            <li v-for="task in todaysTasks" class="task">
+            <li v-for="task in todaysTasks" class="task" v-bind:class="{ completed: task.completed }">
                 {{task.task}}
+                <Complete :task="task"></Complete>
                 <Remove :task="task"></Remove>
             </li>
         </ul>
@@ -19,6 +20,7 @@
 
 <script>
 import Remove from './Remove';
+import Complete from './Complete';
 export default {
   name: 'Day',
   data() {
@@ -30,24 +32,30 @@ export default {
   methods: {
       createNewTask: function() {
         if(this.taskName !== "") {
+            // add new task to tasks array in Store
             this.$store.commit('addNewTask', 
                 {
                     task: this.taskName, 
                     day: this.day.name,
-                    id: Symbol('task')
+                    id: Symbol('task'),
+                    completed: false
                 });
+            // clear the input
             this.taskName = "";
         }       
       }
   },
   computed: {
       todaysTasks: function() {
-        return this.$store.state.tasks.filter(task => task.day === this.day.name);
+        return this.$store.state.tasks
+            .filter(task => task.day === this.day.name)
+            .sort( (a, b) => a.completed - b.completed );
       }
   },
   props: ['day'],
   components: {
-      Remove
+      Remove,
+      Complete
   }
 };
 </script>
@@ -65,6 +73,9 @@ ul {
 .task {
     list-style: none;
     font-size: 30px;
+}
+.completed {
+    text-decoration: line-through;
 }
 .btn-add {
     display: inline-block;

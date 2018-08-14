@@ -1,20 +1,20 @@
 <template>
-    <div class="btn-remove" v-on:click="deleteItem()">
-        <i class="fas fa-trash"></i>
+    <div class="btn-remove" v-on:click="checkOff()">
+        <i class="fas fa-check"></i>
     </div>
 </template>
 
 <script>
     export default {
-       name: 'Remove',
+       name: 'Complete',
        data() {
            return {
 
            }
        },
        methods: {
-           deleteItem: function(){
-               this.$store.commit('deleteItem', { array: 'tasks', id: this.task.id });
+           checkOff: function(){
+               this.$store.commit('checkOff', this.task);
            }
        },
        props: ['task']
@@ -30,7 +30,7 @@
 }
 
 .btn-remove:hover {
-    color: #ff5252;
+    color: #3eaf7c;
 }
 
 </style>
