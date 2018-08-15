@@ -75,7 +75,11 @@ const store = new Vuex.Store({
     },
     assignUser (state, data) {
       data.task.users.push(data.user);
-      data.user.tasks.push(data.task);
+    },
+    unassignUser (state, data) {
+      data.task.users = data.task.users.filter( user => {
+        return user.id !== data.user.id;
+      });
     }
   }
 });

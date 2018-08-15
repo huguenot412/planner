@@ -1,19 +1,25 @@
 <template>
     <div class="day">
         <h1 class="day-name">{{day.name}}</h1>
-        <h2 class="category">Tasks</h2>
-        <div class="new-task-input">
-            <input  type="text" 
-                    placeholder="New task" 
-                    v-model="taskName"
-                    v-on:keyup="createNewTask">
-            <i class="fas fa-plus btn-add-icon" v-on:click="createNewTask"></i>
+        <div class="panel tasks-container">
+            <h2 class="category">Tasks</h2>
+            <div class="new-task-input">
+                <input  type="text" 
+                        placeholder="New task" 
+                        v-model="taskName"
+                        v-on:keyup="createNewTask">
+                <i class="fas fa-plus btn-add-icon" v-on:click="createNewTask"></i>
+            </div>
+            <ul>
+                <Task v-for="task in todaysTasks" :key="task.id" :task="task"></Task>
+            </ul>
         </div>
-        <ul>
-            <Task v-for="task in todaysTasks" :key="task.id" :task="task"></Task>
-        </ul>
-        <h2 class="category">Activities</h2>
-        <h2 class="category">Meals</h2>
+        <div class="panel activities-container">
+            <h2 class="category">Activities</h2>
+        </div>
+        <div class="panel meals-container">
+            <h2 class="category">Meals</h2>
+        </div>
     </div>
 </template>
 
@@ -60,10 +66,19 @@ export default {
 
 <style scoped>
 .day {
-    background-color: #fff;
+  border: 1px solid #888;
+  border-radius: 3px;
+  box-shadow: #888 0 2px 2px;
+  min-height: 90vh;
 }
 .day-name {
     font-family: 'Dancing Script', cursive;
+}
+.panel {
+    background-color: #efefef;
+    border-radius: 3px;
+    margin: 10px 3px;
+    padding: 3px;
 }
 ul {
     padding: 0;
