@@ -50,6 +50,7 @@ export default {
   grid-template-columns: repeat(7, 1fr);
   grid-column-gap: 5px;
   margin: 0 5px;
+  overflow-x: scroll;
 }
 .day {
   border: 1px solid #bbb;

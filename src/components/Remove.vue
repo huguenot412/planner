@@ -26,10 +26,8 @@
 .btn-remove {
     display: inline-block;
     font-size: 15px;
-    height: 30px;
-    width: 20px;
-    vertical-align: middle;
-    margin-left: 3px;
+    justify-self: center;
+    align-self: center;
 }
 
 .btn-remove:hover {

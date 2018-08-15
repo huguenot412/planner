@@ -1,20 +1,24 @@
 <template>
     <div class="day">
         <h1 class="day-name">{{day.name}}</h1>
-        <input  type="text" 
-                placeholder="New task" 
-                v-model="taskName">
-        <div class="btn-add" v-on:click="createNewTask()">
-            <i class="fas fa-plus btn-add-icon"></i>
-        </div >
+        <h2 class="category">Tasks</h2>
+        <div class="new-task-input">
+            <input  type="text" 
+                    placeholder="New task" 
+                    v-model="taskName"
+                    v-on:keyup="createNewTask">
+            <i class="fas fa-plus btn-add-icon" v-on:click="createNewTask"></i>
+        </div>
         <p>{{newTask.name}}</p>
         <ul>
             <li v-for="task in todaysTasks" class="task">
-                <p v-bind:class="{ completed: task.completed }">{{task.task}}</p>
                 <Complete :task="task"></Complete>
                 <Remove :task="task"></Remove>
+                <p v-bind:class="{ completed: task.completed }">{{task.task}}</p>
             </li>
         </ul>
+        <h2 class="category">Activities</h2>
+        <h2 class="category">Meals</h2>
     </div>
 </template>
 
@@ -30,8 +34,10 @@ export default {
     };
   },
   methods: {
-      createNewTask: function() {
+      createNewTask: function(e) {
         if(this.taskName !== "") {
+            console.log(e);
+            if(e.type === 'keyup' && e.keyCode !== 13) { return };
             // add new task to tasks array in Store
             this.$store.commit('addNewTask', 
                 {
@@ -70,30 +76,46 @@ export default {
 ul {
     padding: 0;
 }
+.category {
+    text-align: left;
+    padding-left: 20px;
+}
+.new-task-input {
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+}
 .task {
     list-style: none;
+    text-align: left;
+    padding: 2px 5px;
+    margin: 10px 5px;
+    border: 1px solid #333;
+    box-shadow: #333 0 2px 2px;
+    transition: .2s ease-in-out;
+    display: grid;
+    grid-template-columns: 1fr 1fr 6fr;
+    align-content: center;
+}
+.task:hover {
+    transform: translateY(-2px);
+    box-shadow: #333 0 2px 5px;
 }
 .task p {
     font-size: 30px;
-    display: inline-block; 
     margin: 0;
-    
+    padding-left: 5px
 }
 .completed {
     text-decoration: line-through;
 }
-.btn-add {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    height: 40px;
-    width: 40px;
-    padding-top: 8px;
+.completed {
+     color: #888;
 }
 .btn-add-icon {
     font-size: 30px;
     color: #3eaf7c;
     transition: .2s;
+    padding: 8px 3px 3px 3px;
 }
 .btn-add-icon:hover {
     color: #ff5252;
@@ -101,7 +123,6 @@ ul {
 input[type="text"] {
     display: inline-block;
     vertical-align: top;
-    width: 50%;
     height: 34px;
     padding: 6px 12px;
     margin: 0 0 0 10px;
