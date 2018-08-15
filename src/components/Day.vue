@@ -35,7 +35,7 @@ export default {
   },
   methods: {
       createNewTask: function(e) {
-        if( this.taskName !== "" && ( e.type === 'click' || e.keyCode === 13 )) {
+        if( this.taskName !== "" && ( e.type === 'click' || e.keyCode === 13 ) ) {
             // add new task to tasks array in Store
             this.$store.commit('addNewTask', 
                 {
@@ -53,7 +53,7 @@ export default {
   computed: {
       todaysTasks: function() {
         return this.$store.state.tasks
-            .filter(task => task.day === this.day.name)
+            .filter( task => task.day === this.day.name )
             .sort( (a, b) => a.completed - b.completed );
       }
   },
@@ -92,7 +92,7 @@ ul {
     box-shadow: #333 0 2px 2px;
     transition: .2s ease-in-out;
     display: grid;
-    grid-template-columns: 1fr 1fr 6fr;
+    grid-template-columns: 30px 30px 1fr;
     align-content: center;
 }
 .task:hover {
@@ -100,7 +100,7 @@ ul {
     box-shadow: #333 0 2px 5px;
 }
 .task p {
-    font-size: 30px;
+    font-size: 20px;
     margin: 0;
     padding-left: 5px
 }
