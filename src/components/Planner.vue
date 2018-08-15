@@ -54,7 +54,7 @@ export default {
 }
 .day {
   border: 1px solid #bbb;
-  height: 80vh;
+  min-height: 90vh;
 }
 
 

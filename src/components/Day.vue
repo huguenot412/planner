@@ -9,12 +9,12 @@
                     v-on:keyup="createNewTask">
             <i class="fas fa-plus btn-add-icon" v-on:click="createNewTask"></i>
         </div>
-        <p>{{newTask.name}}</p>
         <ul>
             <li v-for="task in todaysTasks" class="task">
                 <Complete :task="task"></Complete>
                 <Remove :task="task"></Remove>
                 <p v-bind:class="{ completed: task.completed }">{{task.task}}</p>
+                <div class="user" v-for="user in task.users" v-bind:style ="{backgroundColor: user.color}">{{user.name}}</div>
             </li>
         </ul>
         <h2 class="category">Activities</h2>
@@ -35,21 +35,20 @@ export default {
   },
   methods: {
       createNewTask: function(e) {
-        if(this.taskName !== "") {
-            console.log(e);
-            if(e.type === 'keyup' && e.keyCode !== 13) { return };
+        if( this.taskName !== "" && ( e.type === 'click' || e.keyCode === 13 )) {
             // add new task to tasks array in Store
             this.$store.commit('addNewTask', 
                 {
                     task: this.taskName, 
                     day: this.day.name,
                     id: Symbol('task'),
-                    completed: false
+                    completed: false,
+                    users: this.$store.state.users
                 });
             // clear the input
             this.taskName = "";
-        }       
-      }
+        }   
+    }       
   },
   computed: {
       todaysTasks: function() {
@@ -87,7 +86,7 @@ ul {
 .task {
     list-style: none;
     text-align: left;
-    padding: 2px 5px;
+    padding: 2px 0 0 0;
     margin: 10px 5px;
     border: 1px solid #333;
     box-shadow: #333 0 2px 2px;
@@ -139,6 +138,11 @@ input[type="text"] {
     -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
     -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+.user {
+    grid-column: 1 / span 3;
+    color: #fff;
+    padding-left: 3px;
 }
 
 
