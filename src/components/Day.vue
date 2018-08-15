@@ -10,12 +10,7 @@
             <i class="fas fa-plus btn-add-icon" v-on:click="createNewTask"></i>
         </div>
         <ul>
-            <li v-for="task in todaysTasks" class="task">
-                <Complete :task="task"></Complete>
-                <Remove :task="task"></Remove>
-                <p v-bind:class="{ completed: task.completed }">{{task.task}}</p>
-                <div class="user" v-for="user in task.users" v-bind:style ="{backgroundColor: user.color}">{{user.name}}</div>
-            </li>
+            <Task v-for="task in todaysTasks" :key="task.id" :task="task"></Task>
         </ul>
         <h2 class="category">Activities</h2>
         <h2 class="category">Meals</h2>
@@ -23,45 +18,43 @@
 </template>
 
 <script>
-import Remove from './Remove';
-import Complete from './Complete';
+import Task from './Task';
 export default {
-  name: 'Day',
-  data() {
-    return {
-      newTask: "",
-      taskName: ""
-    };
-  },
-  methods: {
-      createNewTask: function(e) {
-        if( this.taskName !== "" && ( e.type === 'click' || e.keyCode === 13 ) ) {
-            // add new task to tasks array in Store
-            this.$store.commit('addNewTask', 
-                {
-                    task: this.taskName, 
-                    day: this.day.name,
-                    id: Symbol('task'),
-                    completed: false,
-                    users: this.$store.state.users
-                });
-            // clear the input
-            this.taskName = "";
-        }   
-    }       
-  },
-  computed: {
-      todaysTasks: function() {
-        return this.$store.state.tasks
-            .filter( task => task.day === this.day.name )
-            .sort( (a, b) => a.completed - b.completed );
-      }
-  },
-  props: ['day'],
-  components: {
-      Remove,
-      Complete
-  }
+    name: 'Day',
+    data() {
+        return {
+            taskName: ""
+        }  
+    },
+    methods: {
+        createNewTask: function(e) {
+            if( this.taskName !== "" && ( e.type === 'click' || e.keyCode === 13 ) ) {
+                // add new task to tasks array in Store
+                this.$store.commit('addNewTask', 
+                    {
+                        task: this.taskName, 
+                        day: this.day.name,
+                        id: Symbol('task'),
+                        completed: false,
+                        users: [],
+                        open: false
+                    });
+                // clear the input
+                this.taskName = "";
+            }   
+        }       
+    },
+    computed: {
+        todaysTasks: function() {
+            return this.$store.state.tasks
+                .filter( task => task.day === this.day.name )
+                .sort( (a, b) => a.completed - b.completed );
+        }
+    },
+    props: ['day'],
+    components: {
+        Task
+    }
 };
 </script>
 
@@ -82,33 +75,6 @@ ul {
 .new-task-input {
     display: grid;
     grid-template-columns: 5fr 1fr;
-}
-.task {
-    list-style: none;
-    text-align: left;
-    padding: 2px 0 0 0;
-    margin: 10px 5px;
-    border: 1px solid #333;
-    box-shadow: #333 0 2px 2px;
-    transition: .2s ease-in-out;
-    display: grid;
-    grid-template-columns: 30px 30px 1fr;
-    align-content: center;
-}
-.task:hover {
-    transform: translateY(-2px);
-    box-shadow: #333 0 2px 5px;
-}
-.task p {
-    font-size: 20px;
-    margin: 0;
-    padding-left: 5px
-}
-.completed {
-    text-decoration: line-through;
-}
-.completed {
-     color: #888;
 }
 .btn-add-icon {
     font-size: 30px;
@@ -139,11 +105,4 @@ input[type="text"] {
     -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
-.user {
-    grid-column: 1 / span 3;
-    color: #fff;
-    padding-left: 3px;
-}
-
-
 </style>

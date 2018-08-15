@@ -42,6 +42,7 @@ const store = new Vuex.Store({
     users: [
       {
         name: 'Chris',
+        id: Symbol('user'),
         tasks: [],
         meals: [],
         activities: [],
@@ -49,6 +50,7 @@ const store = new Vuex.Store({
       },
       {
         name: 'Olivia',
+        id: Symbol('user'),
         tasks: [],
         meals: [],
         activities: [],
@@ -67,8 +69,13 @@ const store = new Vuex.Store({
     },
     checkOff (state, item) {
       item.completed = !item.completed;
-      // let completedTask = state.tasks.find(task => task.id = item.id);
-      // completedTask.completed = true;
+    },
+    toggleTaskDetails (state, task) {
+      task.open = !task.open;
+    },
+    assignUser (state, data) {
+      data.task.users.push(data.user);
+      data.user.tasks.push(data.task);
     }
   }
 });
