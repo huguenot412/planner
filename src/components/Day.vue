@@ -90,13 +90,13 @@ ul {
 }
 .new-task-input {
     display: grid;
-    grid-template-columns: 5fr 1fr;
+    grid-template-columns: 1fr 40px;
 }
 .btn-add-icon {
     font-size: 30px;
     color: #3eaf7c;
     transition: .2s;
-    padding: 8px 3px 3px 3px;
+    padding: 3px;
 }
 .btn-add-icon:hover {
     color: #ff5252;
@@ -105,8 +105,8 @@ input[type="text"] {
     display: inline-block;
     vertical-align: top;
     height: 34px;
-    padding: 6px 12px;
-    margin: 0 0 0 10px;
+    padding: 0 12px;
+    margin: 0 0 0 6px;
     text-align: left;
     font-size: 14px;
     line-height: 1.42857143;

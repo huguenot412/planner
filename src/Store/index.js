@@ -70,9 +70,6 @@ const store = new Vuex.Store({
     checkOff (state, item) {
       item.completed = !item.completed;
     },
-    toggleTaskDetails (state, task) {
-      task.open = !task.open;
-    },
     assignUser (state, data) {
       data.task.users.push(data.user);
     },
