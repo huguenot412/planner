@@ -52,10 +52,7 @@ export default {
   margin: 0 5px;
   overflow-x: scroll;
 }
-.day {
-  border: 1px solid #bbb;
-  min-height: 90vh;
-}
+
 
 
 </style>

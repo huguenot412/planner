@@ -1,8 +1,8 @@
 <template>
-    <li class="task"> 
+    <li class="task" v-bind:class="{ completed: task.completed }"> 
         <Complete :task="task"></Complete>
         <Remove :task="task"></Remove>
-        <p v-bind:class="{ completed: task.completed }" v-on:click="toggleTaskDetails">{{task.task}}</p>
+        <p v-on:click="toggleTaskDetails">{{task.task}}</p>
         <div class="task-details" v-if="task.open">
             <span v-if="unassignedUsers.length > 0">Assign to: </span>
             <ul>
@@ -20,7 +20,7 @@
         <div class="user" 
              v-for="user in task.users" 
              v-bind:style ="{backgroundColor: user.color}">
-             <i class="fas fa-times"></i>
+             <i class="fas fa-times" v-on:click="unassignUser(user)"></i>
              {{user.name}}
         </div>
     </li>
@@ -43,6 +43,11 @@
                     return this.task.users.find( taskUser => taskUser.id === user.id) === undefined ? true : false;
                 });
             }
+            // taskUsers: function() {               
+            //     return this.$state.store.users.filter(user => {
+            //         return this.task.users.find( taskUser => taskUser.id === user.id ).id === user.id ? true : false;
+            //     });
+            // }
         },
         methods: {
             toggleTaskDetails: function() {
@@ -54,6 +59,9 @@
             toggleNoteEdit: function(){
                 this.noteEdit = !this.noteEdit;
                 this.noteEdit ? this.noteBtnText = "Save note" : this.noteBtnText = "Add/edit note";
+            },
+            unassignUser: function(user) {
+                this.$store.commit('unassignUser', {task: this.task, user: user});
             }
         },
         props: ['task'],
@@ -70,21 +78,23 @@
     text-align: left;
     padding: 2px 0 0 0;
     margin: 10px 5px;
-    border: 1px solid #333;
-    box-shadow: #333 0 2px 2px;
+    border: 1px solid #888;
+    border-radius: 3px;
+    box-shadow: #888 0 2px 2px;
     transition: .2s ease-in-out;
     display: grid;
     grid-template-columns: 30px 30px 1fr;
     align-content: center;
+    background-color: #fff;
 }
 .task:hover {
-    transform: translateY(-2px);
-    box-shadow: #333 0 2px 5px;
+    transform: translateY(-1px);
+    box-shadow: #888 0 2px 5px;
 }
 .task p {
     font-size: 20px;
     margin: 0;
-    padding-left: 5px
+    padding: 0 0 3px 5px
 }
 .task-details {
     grid-column: 1 / span 3;
@@ -94,10 +104,10 @@ ul {
     padding: 0;
 }
 .completed {
-    text-decoration: line-through;
+    background-color: #ccc;
 }
-.completed {
-     color: #888;
+.completed p {
+     text-decoration: line-through;
 }
 .user {
     grid-column: 1 / span 3;
