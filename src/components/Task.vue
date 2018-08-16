@@ -11,6 +11,11 @@
                     class="btn-user"
                     v-bind:style ="{backgroundColor: user.color}">{{user.name}}</li>
             </ul>
+            <div class="notes">
+                <div class="btn-add-note" v-on:click="toggleNoteEdit">{{noteBtnText}}</div>
+                <div class="note" v-if="!noteEdit">{{task.note}}</div>
+                <textarea name="note" v-model="task.note" v-if="noteEdit"></textarea>
+            </div>
         </div>
         <div class="user" 
              v-for="user in task.users" 
@@ -27,7 +32,10 @@
     export default {
         name: 'Task',
         data() {
-            return {}
+            return {
+                noteEdit: false,
+                noteBtnText: 'Add/edit note'
+            }
         },
         computed: {
             unassignedUsers: function() {               
@@ -42,6 +50,10 @@
             },
             assignUser: function(user) {
                 this.$store.commit('assignUser', {task: this.task, user: user});
+            },
+            toggleNoteEdit: function(){
+                this.noteEdit = !this.noteEdit;
+                this.noteEdit ? this.noteBtnText = "Save note" : this.noteBtnText = "Add/edit note";
             }
         },
         props: ['task'],
@@ -97,5 +109,12 @@ ul {
     display: inline-block;
     padding: 2px;
     margin: 2px;
+}
+.btn-add-note {
+    padding: 3px;
+    margin: 3px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
 }
 </style>

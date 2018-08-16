@@ -37,6 +37,7 @@ export default {
                         id: Symbol('task'),
                         completed: false,
                         users: [],
+                        note: "",
                         open: false
                     });
                 // clear the input
