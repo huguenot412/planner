@@ -117,7 +117,7 @@ ul {
 .completed {
     background-color: #ccc;
 }
-.completed p {
+.completed .task-name {
      text-decoration: line-through;
 }
 .user {
