@@ -10,7 +10,12 @@
                     'fa-chevron-down': !idOpen,
                     'btn-active': isOpen
                 }"></i>
+            <i class="far fa-edit btn-edit"
+                v-on:click="toggleTaskEdit"></i>
             <Remove :task="task"></Remove>
+        </div>
+        <div class="task-edit" v-if="editMode">
+            <input type="text" v-model="task.task">
         </div>
         <p v-if="!isOpen && task.note !== ''" class="note"><span>Note:</span> {{task.note}}</p>
         <div class="task-details" v-if="isOpen">
@@ -47,6 +52,7 @@
             return {
                 isOpen: false,
                 noteEdit: false,
+                editMode: false,
                 noteBtnText: 'Add/edit note'
             }
         },
@@ -65,6 +71,9 @@
         methods: {
             toggleTaskDetails: function() {
                 this.isOpen = !this.isOpen;
+            },
+            toggleTaskEdit: function() {
+                this.editMode = !this.editMode;
             },
             assignUser: function(user) {
                 this.$store.commit('assignUser', {task: this.task, user: user});
@@ -86,6 +95,12 @@
 </script>
 
 <style scoped>
+p {
+    margin: 0;
+}
+ul {
+    padding: 0;
+}
 .task {
     list-style: none;
     text-align: left;
@@ -107,12 +122,6 @@
 .task-details {
     grid-column: 1 / -1;
     padding: 2px;
-}
-p {
-    margin: 0;
-}
-ul {
-    padding: 0;
 }
 .completed {
     background-color: #ccc;
@@ -169,6 +178,30 @@ ul {
 .btn-add-note:hover {
     background-color: #ff5252;
 }
+.task-edit {
+    grid-column: 1 / -1;
+    justify-self: left;
+}
+.task-edit input {
+    display: inline-block;
+    vertical-align: top;
+    height: 34px;
+    margin: 0 0 3px 3px;
+    padding: 0 12px;
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
 .task-name {
     grid-column: 1 / -1;
     grid-row: 1 / span 1;
@@ -178,7 +211,7 @@ ul {
 }
 .btn-panel {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     padding: 3px 5px;
     grid-column: 1 / -1;
     grid-row: 1 / span 1;
@@ -189,11 +222,13 @@ ul {
 .btn-panel:hover {
     opacity: .9;
 }
-.btn-list {
+.btn-list,
+.btn-edit {
     align-self: center;
     justify-self: center;
 }
-.btn-list:hover {
+.btn-list:hover,
+.btn-edit:hover {
     color: #3eaf7c;
 }
 .btn-active {
