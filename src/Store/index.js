@@ -55,6 +55,14 @@ const store = new Vuex.Store({
         meals: [],
         activities: [],
         color: '#ff5252'
+      },
+      {
+        name: 'Lea',
+        id: Symbol('user'),
+        tasks: [],
+        meals: [],
+        activities: [],
+        color: '#9E55BC'
       }
     ]
   },

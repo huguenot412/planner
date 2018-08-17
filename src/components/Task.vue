@@ -2,14 +2,14 @@
     <li class="task" v-bind:class="{ completed: task.completed }"> 
         <p class="task-name" v-if="!editMode">{{task.task}}</p>
         <div class="btn-panel" v-if="!editMode">
-            <Complete :task="task"></Complete>
             <i class="fas btn-list" 
                 v-on:click="toggleTaskDetails"
                 v-bind:class="{
                     'fa-chevron-up': isOpen, 
-                    'fa-chevron-down': !idOpen,
+                    'fa-chevron-down': !isOpen,
                     'btn-active': isOpen
                 }"></i>
+            <Complete :task="task"></Complete>
             <i class="far fa-edit btn-edit"
                 v-on:click="toggleTaskEdit"></i>
             <Remove :task="task"></Remove>
@@ -42,8 +42,8 @@
              v-for="user in task.users"
              :key="user.id"
              v-bind:style ="{backgroundColor: user.color}">
-             <i class="fas fa-times btn-unassign" v-on:click="unassignUser(user)"></i>
              <span class="user-name">{{user.name}}</span>
+             <i class="fas fa-times btn-unassign" v-on:click="unassignUser(user)"></i>
         </div>
     </li>
 </template>
@@ -82,9 +82,11 @@
             },
             toggleNoteEdit: function(e){
                 if( e.type === 'click' || e.keyCode === 13 ) {
+                    console.log(e);
+                    e.preventDefault();
                     this.noteEdit = !this.noteEdit;
-                    if(this.noteEdit) { this.noteBtnText = "Save" } 
-                    if(!this.noteEdit && this.task.note === "") { this.noteBtnText = "Add" }
+                    if(this.noteEdit) { this.noteBtnText = "Save" };
+                    if(!this.noteEdit && this.task.note === "") { this.noteBtnText = "Add" };
                     if(!this.noteEdit && this.task.note !== "") { this.noteBtnText = "Edit" };
                 }
             },
@@ -130,7 +132,7 @@ ul {
     padding: 2px;
 }
 .completed {
-    background-color: #ccc;
+    background-color: #eee;
 }
 .completed .task-name {
      text-decoration: line-through;
@@ -139,6 +141,8 @@ ul {
     grid-column: 1 / span 3;
     color: #fff;
     padding-left: 3px;
+    display: grid;
+    grid-template-columns: 1fr 20px;
 }
 .user-name {
     display: inline-block;
@@ -192,7 +196,8 @@ ul {
     grid-template-columns: 1fr 50px;
 }
 .task-edit input {
-    height: 28px;
+    box-sizing: border-box;
+    height: 26px;
     margin: 3px;
     padding: 0 6px;
     text-align: left;
@@ -250,9 +255,13 @@ ul {
     color: #ff5252;
 }
 .btn-unassign {
-    transition: .5s cubic-bezier(.53,-0.52,.57,1.5);
+    justify-self: center;
+    align-items: center;
+    transition: .6s cubic-bezier(.53,-0.52,.57,1.5);
+    padding-top: 1px;
 }
 .btn-unassign:hover {
-    transform: rotate(180deg);
+    transform-origin: center;
+    transform: rotateY(-180deg);   
 }
 </style>

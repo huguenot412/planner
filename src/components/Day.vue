@@ -76,7 +76,7 @@ export default {
     font-family: 'Dancing Script', cursive;
 }
 .panel {
-    background-color: #efefef;
+    background-color: #fff;
     border-radius: 3px;
     margin: 10px 3px;
     padding: 3px;

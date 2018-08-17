@@ -1,6 +1,6 @@
 <template>
     <div class="btn-complete" v-on:click="checkOff()">
-        <i class="fas fa-check"></i>
+        <i class="fas fa-check-circle"></i>
     </div>
 </template>
 
