@@ -1,7 +1,7 @@
 <template>
     <li class="task" v-bind:class="{ completed: task.completed }"> 
-        <p class="task-name">{{task.task}}</p>
-        <div class="btn-panel">
+        <p class="task-name" v-if="!editMode">{{task.task}}</p>
+        <div class="btn-panel" v-if="!editMode">
             <Complete :task="task"></Complete>
             <i class="fas btn-list" 
                 v-on:click="toggleTaskDetails"
@@ -15,7 +15,8 @@
             <Remove :task="task"></Remove>
         </div>
         <div class="task-edit" v-if="editMode">
-            <input type="text" v-model="task.task">
+            <input type="text" v-model="task.task" v-on:keyup="toggleTaskEdit">
+            <div class="btn-save" v-on:click="toggleTaskEdit">Save</div>
         </div>
         <p v-if="!isOpen && task.note !== ''" class="note"><span>Note:</span> {{task.note}}</p>
         <div class="task-details" v-if="isOpen">
@@ -28,16 +29,20 @@
                     v-bind:style ="{backgroundColor: user.color}">{{user.name}}</li>
             </ul>
             <div class="notes">
-                <div class="btn-add-note" v-on:click="toggleNoteEdit">{{noteBtnText}}</div>
+                <div class="btn-add-note" v-on:click="toggleNoteEdit">{{noteBtnText}} note</div>
                 <div class="note" v-if="!noteEdit && task.note !== ''"><span>Note:</span> {{task.note}}</div>
-                <textarea class="note-edit" name="note" v-model="task.note" v-if="noteEdit"></textarea>
+                <textarea class="note-edit" 
+                            name="note" 
+                            v-model="task.note" 
+                            v-if="noteEdit"
+                            v-on:keyup="toggleNoteEdit"></textarea>
             </div>
         </div>
         <div class="user" 
              v-for="user in task.users"
              :key="user.id"
              v-bind:style ="{backgroundColor: user.color}">
-             <i class="fas fa-times" v-on:click="unassignUser(user)"></i>
+             <i class="fas fa-times btn-unassign" v-on:click="unassignUser(user)"></i>
              <span class="user-name">{{user.name}}</span>
         </div>
     </li>
@@ -53,7 +58,7 @@
                 isOpen: false,
                 noteEdit: false,
                 editMode: false,
-                noteBtnText: 'Add/edit note'
+                noteBtnText: 'Add'
             }
         },
         computed: {
@@ -62,25 +67,26 @@
                     return this.task.users.find( taskUser => taskUser.id === user.id) === undefined ? true : false;
                 });
             }
-            // taskUsers: function() {               
-            //     return this.$state.store.users.filter(user => {
-            //         return this.task.users.find( taskUser => taskUser.id === user.id ).id === user.id ? true : false;
-            //     });
-            // }
         },
         methods: {
             toggleTaskDetails: function() {
                 this.isOpen = !this.isOpen;
             },
-            toggleTaskEdit: function() {
-                this.editMode = !this.editMode;
+            toggleTaskEdit: function(e) {
+                if( e.type === 'click' || e.keyCode === 13 ) {
+                    this.editMode = !this.editMode;
+                }
             },
             assignUser: function(user) {
                 this.$store.commit('assignUser', {task: this.task, user: user});
             },
-            toggleNoteEdit: function(){
-                this.noteEdit = !this.noteEdit;
-                this.noteEdit ? this.noteBtnText = "Save note" : this.noteBtnText = "Add/edit note";
+            toggleNoteEdit: function(e){
+                if( e.type === 'click' || e.keyCode === 13 ) {
+                    this.noteEdit = !this.noteEdit;
+                    if(this.noteEdit) { this.noteBtnText = "Save" } 
+                    if(!this.noteEdit && this.task.note === "") { this.noteBtnText = "Add" }
+                    if(!this.noteEdit && this.task.note !== "") { this.noteBtnText = "Edit" };
+                }
             },
             unassignUser: function(user) {
                 this.$store.commit('unassignUser', {task: this.task, user: user});
@@ -147,16 +153,17 @@ ul {
     padding: 5px;
     font-size: 14px;
     grid-column: 1 / -1;
+    line-height: 1.5;
 }
 .note span {
     background-color: #3eaf7c;
     color: #fff;
-    padding: 2px 5px;
+    padding: 0 5px;
 }
 .note-edit {
     margin: 3px;
     padding: 10px;
-    min-height: 120px;
+    min-height: 50px;
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
     resize: vertical;
@@ -181,13 +188,13 @@ ul {
 .task-edit {
     grid-column: 1 / -1;
     justify-self: left;
+    display: grid;
+    grid-template-columns: 1fr 50px;
 }
 .task-edit input {
-    display: inline-block;
-    vertical-align: top;
-    height: 34px;
-    margin: 0 0 3px 3px;
-    padding: 0 12px;
+    height: 28px;
+    margin: 3px;
+    padding: 0 6px;
     text-align: left;
     font-size: 14px;
     line-height: 1.42857143;
@@ -201,6 +208,14 @@ ul {
     -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
     -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+.btn-save {
+    padding: 5px;
+    color: #fff;
+    background-color: #3eaf7c;
+    justify-self: center;
+    align-self: center;
+    margin: 3px 3px 3px 0;
 }
 .task-name {
     grid-column: 1 / -1;
@@ -233,5 +248,11 @@ ul {
 }
 .btn-active {
     color: #ff5252;
+}
+.btn-unassign {
+    transition: .5s cubic-bezier(.53,-0.52,.57,1.5);
+}
+.btn-unassign:hover {
+    transform: rotate(180deg);
 }
 </style>
