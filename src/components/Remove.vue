@@ -14,10 +14,10 @@
        },
        methods: {
            deleteItem: function(){
-               this.$store.commit('deleteItem', { array: 'tasks', id: this.task.id });
+               this.$store.commit('deleteItem', { array: this.array, id: this.item.id });
            }
        },
-       props: ['task']
+       props: ['item','array']
     }
 </script>
 

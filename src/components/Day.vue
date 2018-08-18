@@ -3,7 +3,7 @@
         <h1 class="day-name">{{day.name}}</h1>
         <div class="panel tasks-container">
             <h2 class="category">Tasks</h2>
-            <div class="new-task-input">
+            <div class="new-item-input">
                 <input  type="text" 
                         placeholder="New task" 
                         v-model="taskName"
@@ -19,17 +19,29 @@
         </div>
         <div class="panel meals-container">
             <h2 class="category">Meals</h2>
+            <div class="new-item-input">
+                <input  type="text" 
+                        placeholder="New meal" 
+                        v-model="mealName"
+                        v-on:keyup="createNewMeal">
+                <i class="fas fa-plus btn-add-icon" v-on:click="createNewMeal"></i>
+            </div>
+            <ul>
+                <Meal v-for="meal in todaysMeals" :key="meal.id" :meal="meal"></Meal>
+            </ul>
         </div>
     </div>
 </template>
 
 <script>
 import Task from './Task';
+import Meal from './Meal';
 export default {
     name: 'Day',
     data() {
         return {
-            taskName: ""
+            taskName: "",
+            mealName: ""
         }  
     },
     methods: {
@@ -43,11 +55,25 @@ export default {
                         id: Symbol('task'),
                         completed: false,
                         users: [],
-                        note: "",
-                        open: false
+                        note: ""
                     });
                 // clear the input
                 this.taskName = "";
+            }   
+        },     
+        createNewMeal: function(e) {
+            if( this.mealName !== "" && ( e.type === 'click' || e.keyCode === 13 ) ) {
+                // add new meal to meals array in Store
+                this.$store.commit('addNewMeal', 
+                    {
+                        name: this.mealName, 
+                        day: this.day.name,
+                        id: Symbol('meal'),
+                        note: "",
+                        type: ""
+                    });
+                // clear the input
+                this.mealName = "";
             }   
         }       
     },
@@ -56,14 +82,51 @@ export default {
             return this.$store.state.tasks
                 .filter( task => task.day === this.day.name )
                 .sort( (a, b) => a.completed - b.completed );
+        },
+        todaysMeals: function() {
+            return this.$store.state.meals
+                .filter( meal => meal.day === this.day.name )
+                // Sorts Breakfast > Lunch > Dinner from top to bottom
+                .map( meal => {
+                    if(meal.type === "Breakfast") { meal.order = 1 };
+                    if(meal.type === "Lunch") { meal.order = 2 };
+                    if(meal.type === "Dinner") { meal.order = 3 };
+                    return meal;
+                })
+                .sort( (a,b) => { return a.order - b.order });
         }
     },
     props: ['day'],
     components: {
-        Task
+        Task,
+        Meal
     }
 };
 </script>
+<style>
+.panel li {
+    list-style: none;
+    text-align: left;
+    padding: 0;
+    margin: 10px 5px;
+    border: 1px solid #888;
+    border-radius: 3px;
+    box-shadow: #888 0 2px 2px;
+    transition: .2s ease-in-out;
+    display: grid;
+    grid-template-columns: 1fr;
+    align-content: center;
+    background-color: #fff;
+}
+h3 {
+    grid-column: 1 / -1;
+    grid-row: 1 / span 1;
+    padding: 3px 5px;
+    font-size: 24px;
+    margin: 0;
+    font-weight: 400;
+}
+</style>
 
 <style scoped>
 .day {
@@ -78,7 +141,7 @@ export default {
 .panel {
     background-color: #fff;
     border-radius: 3px;
-    margin: 10px 3px;
+    margin: 0 3px;
     padding: 3px;
 }
 ul {
@@ -88,7 +151,7 @@ ul {
     text-align: left;
     padding-left: 20px;
 }
-.new-task-input {
+.new-item-input {
     display: grid;
     grid-template-columns: 1fr 40px;
 }
@@ -105,7 +168,7 @@ input[type="text"] {
     display: inline-block;
     vertical-align: top;
     height: 34px;
-    padding: 0 12px;
+    padding: 0 8px;
     margin: 0 0 0 6px;
     text-align: left;
     font-size: 14px;

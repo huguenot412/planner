@@ -37,8 +37,80 @@ const store = new Vuex.Store({
     ],
 
     tasks: [],
-    meals: [],
-    recipes: [],
+    meals: [
+      {
+        name: "Pommes de Terre au Four",
+        day: 'Saturday',
+        id: Symbol('meal'),
+        note: "",
+        type: 'Dinner'
+        
+      },
+      {
+        name: "Yellow Curry Chicken",
+        day: 'Monday',
+        id: Symbol('meal'),
+        note: "",
+        type: 'Dinner'
+      },
+      {
+        name: "Crepes",
+        day: 'Monday',
+        id: Symbol('meal'),
+        note: "",
+        type: 'Breakfast'
+      },
+      {
+        name: "Soup",
+        day: 'Monday',
+        id: Symbol('meal'),
+        note: "",
+        type: "Lunch"
+      },
+      {
+        name: "Green Salad",
+        day: 'Wednesday',
+        id: Symbol('meal'),
+        note: "",
+        type: "Lunch"
+      }
+    ],
+    recipes: [
+      {
+        name: "Crepes",
+        ingredients: [
+          {
+            name: 'sugar',
+            amount: 1,
+            unit: 'Tbsp'
+          },
+          {
+            name: 'flour',
+            amount: 250,
+            unit: 'g'
+          },
+          {
+            name: 'milk',
+            amount: 250,
+            unit: 'ml'
+          },
+          {
+            name: 'eggs',
+            amount: 4,
+            unit: null
+          }
+        ],
+        prepTime: 5,
+        cookingtime: 1,
+        directions: [
+          'Mix ingredients',
+          'Heat crepe pan and apply butter or oil',
+          'cook on crepe pan'
+        ],
+        note: 'Simple, quick and delicious!',
+        id: Symbol('recipe')
+      }
+    ],
     users: [
       {
         name: 'Chris',
@@ -70,9 +142,12 @@ const store = new Vuex.Store({
     addNewTask (state, task) {
       state.tasks.push(task);
     },
+    addNewMeal (state, meal) {
+      state.meals.push(meal);
+    },
     deleteItem (state, item) {
-      state[item.array] = state[item.array].filter( task => {
-        return task.id !== item.id;
+      state[item.array] = state[item.array].filter( x => {
+        return x.id !== item.id;
       });
     },
     checkOff (state, item) {

@@ -1,49 +1,37 @@
 <template>
-    <li class="task" v-bind:class="{ completed: task.completed }"> 
-        <h3 class="task-name" v-if="!editMode">{{task.task}}</h3>
+    <li class="meal"> 
+        <h3 class="meal-name" v-if="!editMode">{{meal.name}}</h3>
         <div class="btn-panel" v-if="!editMode">
             <i class="fas btn-list" 
-                v-on:click="toggleTaskDetails"
+                v-on:click="toggleMealDetails"
                 v-bind:class="{
                     'fa-chevron-up': isOpen, 
                     'fa-chevron-down': !isOpen,
                     'btn-active': isOpen
                 }"></i>
-            <Complete :item="task" :array="'tasks'"></Complete>
             <i class="far fa-edit btn-edit"
-                v-on:click="toggleTaskEdit"></i>
-            <Remove :item="task" :array="array"></Remove>
+                v-on:click="toggleMealEdit"></i>
+            <Remove :item="meal" :array="array"></Remove>
         </div>
-        <div class="task-edit" v-if="editMode">
-            <input type="text" v-model="task.task" v-on:keyup="toggleTaskEdit">
-            <div class="btn-save" v-on:click="toggleTaskEdit">Save</div>
+        <div class="meal-edit" v-if="editMode">
+            <input type="text" v-model="meal.name" v-on:keyup="toggleMealEdit">
+            <div class="btn-save" v-on:click="toggleMealEdit">Save</div>
         </div>
-        <p v-if="!isOpen && task.note !== ''" class="note"><span>Note:</span> {{task.note}}</p>
-        <div class="task-details" v-if="isOpen">
-            <span v-if="unassignedUsers.length > 0">Assign to: </span>
-            <ul>
-                <li v-for="user in unassignedUsers"
-                    :key="user.id"
-                    v-on:click="assignUser(user)"
-                    class="btn-user"
-                    v-bind:style ="{backgroundColor: user.color}">{{user.name}}</li>
-            </ul>
+        <p v-if="!isOpen && meal.note !== ''" class="note"><span>Note:</span> {{meal.note}}</p>
+        <div class="meal-details" v-if="isOpen">
             <div class="notes">
                 <div class="btn-add-note" v-on:click="toggleNoteEdit">{{noteBtnText}} note</div>
-                <div class="note" v-if="!noteEdit && task.note !== ''"><span>Note:</span> {{task.note}}</div>
+                <div class="note" v-if="!noteEdit && meal.note !== ''"><span>Note:</span> {{meal.note}}</div>
                 <textarea class="note-edit" 
                             name="note" 
-                            v-model="task.note" 
+                            v-model="meal.note" 
                             v-if="noteEdit"
                             v-on:keyup="toggleNoteEdit"></textarea>
             </div>
         </div>
-        <div class="user" 
-             v-for="user in task.users"
-             :key="user.id"
-             v-bind:style ="{backgroundColor: user.color}">
-             <span class="user-name">{{user.name}}</span>
-             <i class="fas fa-times btn-unassign" v-on:click="unassignUser(user)"></i>
+        <div class="meal-type" 
+             v-bind:style ="{backgroundColor: mealColor()}">
+             <span class="user-name">{{meal.type}}</span>
         </div>
     </li>
 </template>
@@ -52,34 +40,32 @@
     import Remove from './Remove';
     import Complete from './Complete'; 
     export default {
-        name: 'Task',
+        name: 'meal',
         data() {
             return {
                 isOpen: false,
                 noteEdit: false,
                 editMode: false,
                 noteBtnText: 'Add',
-                array: 'tasks'
-            }
-        },
-        computed: {
-            unassignedUsers: function() {               
-                return this.$store.state.users.filter(user => {
-                    return this.task.users.find( taskUser => taskUser.id === user.id) === undefined ? true : false;
-                });
+                array: 'meals',
+                mealColor: function() {
+                    if(this.meal.type === 'Breakfast') { return '#3eaf7c' };
+                    if(this.meal.type === 'Lunch') { return '#ff5252' };
+                    if(this.meal.type === 'Dinner') { return '#9E55BC' };
+                }
             }
         },
         methods: {
-            toggleTaskDetails: function() {
+            toggleMealDetails: function() {
                 this.isOpen = !this.isOpen;
             },
-            toggleTaskEdit: function(e) {
+            toggleMealEdit: function(e) {
                 if( e.type === 'click' || e.keyCode === 13 ) {
                     this.editMode = !this.editMode;
                 }
             },
             assignUser: function(user) {
-                this.$store.commit('assignUser', {task: this.task, user: user});
+                this.$store.commit('assignUser', {meal: this.meal, user: user});
             },
             toggleNoteEdit: function(e){
                 if( e.type === 'click' || e.keyCode === 13 ) {
@@ -87,15 +73,15 @@
                     e.preventDefault();
                     this.noteEdit = !this.noteEdit;
                     if(this.noteEdit) { this.noteBtnText = "Save" };
-                    if(!this.noteEdit && this.task.note === "") { this.noteBtnText = "Add" };
-                    if(!this.noteEdit && this.task.note !== "") { this.noteBtnText = "Edit" };
+                    if(!this.noteEdit && this.meal.note === "") { this.noteBtnText = "Add" };
+                    if(!this.noteEdit && this.meal.note !== "") { this.noteBtnText = "Edit" };
                 }
             },
             unassignUser: function(user) {
-                this.$store.commit('unassignUser', {task: this.task, user: user});
+                this.$store.commit('unassignUser', {meal: this.meal, user: user});
             }
         },
-        props: ['task'],
+        props: ['meal'],
         components: {
             Remove,
             Complete
@@ -104,27 +90,24 @@
 </script>
 
 <style scoped>
+.meal-name {
+    padding: 3px;
+}
 p {
     margin: 0;
 }
 ul {
     padding: 0;
 }
-/* .task:hover {
+/* .meal:hover {
     transform: translateY(-1px);
     box-shadow: #888 0 2px 5px;
 } */
-.task-details {
+.meal-details {
     grid-column: 1 / -1;
     padding: 2px;
 }
-.completed {
-    background-color: #eee;
-}
-.completed .task-name {
-     text-decoration: line-through;
-}
-.user {
+.meal-type {
     grid-column: 1 / span 3;
     color: #fff;
     padding-left: 3px;
@@ -176,13 +159,13 @@ ul {
 .btn-add-note:hover {
     background-color: #ff5252;
 }
-.task-edit {
+.meal-edit {
     grid-column: 1 / -1;
     justify-self: left;
     display: grid;
     grid-template-columns: 1fr 50px;
 }
-.task-edit input {
+.meal-edit input {
     box-sizing: border-box;
     height: 26px;
     margin: 3px;
@@ -214,7 +197,7 @@ ul {
 }
 .btn-panel {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     padding: 3px 5px;
     grid-column: 1 / -1;
     grid-row: 1 / span 1;

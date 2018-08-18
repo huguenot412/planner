@@ -40,7 +40,7 @@ export default {
   grid-template-columns: 100px 1fr;
 }
 .header {
-  min-height: 80px;
+  height: 80px;
   padding: 0 0 0 40px;
   background-image: linear-gradient(to right,rgba(62,175,124,.5),rgba(62,175,124,.5)), url("../assets/planner.jpg");
   background-size: cover;
@@ -80,7 +80,6 @@ export default {
   grid-template-columns: repeat(7, 1fr);
   grid-column-gap: 5px;
   margin: 0 5px;
-  overflow-x: scroll;
   grid-column: 2 / -1;
 }
 

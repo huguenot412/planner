@@ -14,10 +14,10 @@
        },
        methods: {
            checkOff: function(){
-               this.$store.commit('checkOff', this.task);
+               this.$store.commit('checkOff', this.item);
            }
        },
-       props: ['task']
+       props: ['item', 'array']
     }
 </script>
 

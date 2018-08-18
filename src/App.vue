@@ -11,6 +11,12 @@ export default {
 </script>
 
 <style>
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
 body {
   background-color: #fff;
   margin: 0;
