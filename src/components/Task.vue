@@ -1,5 +1,5 @@
 <template>
-    <li class="task" v-bind:class="{ completed: task.completed }"> 
+    <li class="task" draggable="true" v-on:dragstart="startDrag($event)" v-bind:class="{ completed: task.completed }"> 
         <h3 class="task-name" v-if="!editMode">{{task.task}}</h3>
         <div class="btn-panel" v-if="!editMode">
             <i class="fas btn-list" 
@@ -93,7 +93,11 @@
             },
             unassignUser: function(user) {
                 this.$store.commit('unassignUser', {task: this.task, user: user});
-            }
+            },
+            startDrag: function($event) {;
+                var data = JSON.stringify(this.task);
+                $event.dataTransfer.setData("text/plain", data);
+            } 
         },
         props: ['task'],
         components: {

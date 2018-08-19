@@ -1,5 +1,5 @@
 <template>
-    <div class="day">
+    <div class="day" v-on:dragover.prevent="dragOver($event)" v-on:drop.prevent="drop($event)">
         <h1 class="day-name">{{day.name}}</h1>
         <div class="panel tasks-container">
             <h2 class="category">Tasks</h2>
@@ -75,7 +75,15 @@ export default {
                 // clear the input
                 this.mealName = "";
             }   
-        }       
+        },
+        dragOver: function($event) {
+            $event.dataTransfer.dropEffect = "move";
+        },
+        drop: function($event) {
+            var data = JSON.parse($event.dataTransfer.getData("text/plain"));
+            console.log($event.dataTransfer.items);
+            this.$store.commit('changeDay', {item: data, day: this.day, list: 'tasks'});
+        }   
     },
     computed: {
         todaysTasks: function() {

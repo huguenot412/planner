@@ -160,6 +160,10 @@ const store = new Vuex.Store({
       data.task.users = data.task.users.filter( user => {
         return user.id !== data.user.id;
       });
+    },
+    changeDay (state, data) {
+      let task = state[data.list].find( (x) => { return x.task === data.item.task && x.day.name === data.item.day.name; });
+      task.day = data.day.name;
     }
   }
 });
