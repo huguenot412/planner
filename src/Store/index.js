@@ -2,114 +2,119 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 Vue.use(Vuex);
+const uniqid = require('uniqid');
 
 const store = new Vuex.Store({
   state: {
     days: [
       {
         name: 'Monday',
-        type: 'weekday'
+        type: 'weekday',
       },
       {
         name: 'Tuesday',
-        type: 'weekday'
+        type: 'weekday',
       },
       {
         name: 'Wednesday',
-        type: 'weekday'
+        type: 'weekday',
       },
       {
         name: 'Thursday',
-        type: 'weekday'
+        type: 'weekday',
       },
       {
         name: 'Friday',
-        type: 'weekday'
+        type: 'weekday',
       },
       {
         name: 'Saturday',
-        type: 'weekend'
+        type: 'weekend',
       },
       {
         name: 'Sunday',
-        type: 'weekend'
-      }
+        type: 'weekend',
+      },
     ],
 
     tasks: [],
     meals: [
       {
-        name: "Pommes de Terre au Four",
+        name: 'Pommes de Terre au Four',
         day: 'Saturday',
-        id: Symbol('meal'),
-        note: "",
-        type: 'Dinner'
-        
+        id: uniqid('meal'),
+        note: '',
+        type: 'Dinner',
+        list: 'meals'
       },
       {
-        name: "Yellow Curry Chicken",
+        name: 'Yellow Curry Chicken',
         day: 'Monday',
-        id: Symbol('meal'),
-        note: "",
-        type: 'Dinner'
+        id: uniqid('meal'),
+        note: '',
+        type: 'Dinner',
+        list: 'meals'
       },
       {
-        name: "Crepes",
+        name: 'Crepes',
         day: 'Monday',
-        id: Symbol('meal'),
-        note: "",
-        type: 'Breakfast'
+        id: uniqid('meal'),
+        note: '',
+        type: 'Breakfast',
+        list: 'meals'
       },
       {
-        name: "Soup",
+        name: 'Soup',
         day: 'Monday',
-        id: Symbol('meal'),
-        note: "",
-        type: "Lunch"
+        id: uniqid('meal'),
+        note: '',
+        type: 'Lunch',
+        list: 'meals'
       },
       {
-        name: "Green Salad",
+        name: 'Green Salad',
         day: 'Wednesday',
-        id: Symbol('meal'),
-        note: "",
-        type: "Lunch"
-      }
+        id: uniqid('meal'),
+        note: '',
+        type: 'Lunch',
+        list: 'meals'
+      },
     ],
     recipes: [
       {
-        name: "Crepes",
+        name: 'Crepes',
         ingredients: [
           {
             name: 'sugar',
             amount: 1,
-            unit: 'Tbsp'
+            unit: 'Tbsp',
           },
           {
             name: 'flour',
             amount: 250,
-            unit: 'g'
+            unit: 'g',
           },
           {
             name: 'milk',
             amount: 250,
-            unit: 'ml'
+            unit: 'ml',
           },
           {
             name: 'eggs',
             amount: 4,
-            unit: null
-          }
+            unit: null,
+          },
         ],
         prepTime: 5,
         cookingtime: 1,
         directions: [
           'Mix ingredients',
           'Heat crepe pan and apply butter or oil',
-          'cook on crepe pan'
+          'cook on crepe pan',
         ],
         note: 'Simple, quick and delicious!',
-        id: Symbol('recipe')
-      }
+        id: Symbol('recipe'),
+      },
     ],
     users: [
       {
@@ -118,7 +123,7 @@ const store = new Vuex.Store({
         tasks: [],
         meals: [],
         activities: [],
-        color: '#3eaf7c'
+        color: '#3eaf7c',
       },
       {
         name: 'Olivia',
@@ -126,7 +131,7 @@ const store = new Vuex.Store({
         tasks: [],
         meals: [],
         activities: [],
-        color: '#ff5252'
+        color: '#ff5252',
       },
       {
         name: 'Lea',
@@ -134,38 +139,34 @@ const store = new Vuex.Store({
         tasks: [],
         meals: [],
         activities: [],
-        color: '#9E55BC'
-      }
-    ]
+        color: '#9E55BC',
+      },
+    ],
   },
   mutations: {
-    addNewTask (state, task) {
+    addNewTask(state, task) {
       state.tasks.push(task);
     },
-    addNewMeal (state, meal) {
+    addNewMeal(state, meal) {
       state.meals.push(meal);
     },
-    deleteItem (state, item) {
-      state[item.array] = state[item.array].filter( x => {
-        return x.id !== item.id;
-      });
+    deleteItem(state, item) {
+      state[item.array] = state[item.array].filter(x => x.id !== item.id);
     },
-    checkOff (state, item) {
+    checkOff(state, item) {
       item.completed = !item.completed;
     },
-    assignUser (state, data) {
+    assignUser(state, data) {
       data.task.users.push(data.user);
     },
-    unassignUser (state, data) {
-      data.task.users = data.task.users.filter( user => {
-        return user.id !== data.user.id;
-      });
+    unassignUser(state, data) {
+      data.task.users = data.task.users.filter(user => user.id !== data.user.id);
     },
-    changeDay (state, data) {
-      let task = state[data.list].find( (x) => { return x.task === data.item.task && x.day.name === data.item.day.name; });
-      task.day = data.day.name;
-    }
-  }
+    changeDay(state, data) {
+      const item = state[data.item.list].find(x => x.id === data.item.id);
+      item.day = data.day.name;
+    },
+  },
 });
 
 export default store;

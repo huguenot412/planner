@@ -187,6 +187,7 @@ ul {
     grid-template-columns: 1fr 50px;
 }
 .task-edit input {
+    display: inline-block;
     box-sizing: border-box;
     height: 26px;
     margin: 3px;

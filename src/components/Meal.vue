@@ -1,5 +1,5 @@
 <template>
-    <li class="meal"> 
+    <li class="meal" draggable="true" v-on:dragstart="startDrag($event)"> 
         <h3 class="meal-name" v-if="!editMode">{{meal.name}}</h3>
         <div class="btn-panel" v-if="!editMode">
             <i class="fas btn-list" 
@@ -79,7 +79,11 @@
             },
             unassignUser: function(user) {
                 this.$store.commit('unassignUser', {meal: this.meal, user: user});
-            }
+            },
+            startDrag: function($event) {;
+                var data = JSON.stringify(this.meal);
+                $event.dataTransfer.setData("text/plain", data);
+            } 
         },
         props: ['meal'],
         components: {
@@ -166,6 +170,7 @@ ul {
     grid-template-columns: 1fr 50px;
 }
 .meal-edit input {
+    display: inline-block;
     box-sizing: border-box;
     height: 26px;
     margin: 3px;
