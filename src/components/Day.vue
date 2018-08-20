@@ -134,10 +134,13 @@ export default {
 h3 {
     grid-column: 1 / -1;
     grid-row: 1 / span 1;
-    padding: 3px 5px;
-    font-size: 24px;
+    padding: 10px;
+    font-size: 18px;
     margin: 0;
     font-weight: 400;
+}
+.btn-panel i:hover {
+    cursor: pointer !important;
 }
 </style>
 
@@ -152,7 +155,7 @@ h3 {
     font-family: 'Dancing Script', cursive;
 }
 .panel {
-    background-color: #fff;
+    background-color: #fff;;
     border-radius: 3px;
     margin: 0 3px;
     padding: 3px;
@@ -176,6 +179,7 @@ ul {
 }
 .btn-add-icon:hover {
     color: #ff5252;
+    text-shadow: 0 4px 10px #747575;
 }
 input[type="text"] {
     display: inline-block;

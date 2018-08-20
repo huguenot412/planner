@@ -1,5 +1,7 @@
 <template>
-    <li class="task" draggable="true" v-on:dragstart="startDrag($event)" v-bind:class="{ completed: task.completed }"> 
+    <li class="task" draggable="true" 
+        v-on:dragstart="startDrag($event)"
+        v-bind:class="{ completed: task.completed }"> 
         <h3 class="task-name" v-if="!editMode">{{task.task}}</h3>
         <div class="btn-panel" v-if="!editMode">
             <i class="fas btn-list" 
@@ -95,8 +97,6 @@
                 this.$store.commit('unassignUser', {task: this.task, user: user});
             },
             startDrag: function($event) {
-                // var data = JSON.stringify(this.task);
-                // $event.dataTransfer.setData("text/plain", data);
                 this.$store.commit('drag', this.task);
             } 
         },
@@ -108,6 +108,7 @@
     }
 </script>
 
+
 <style scoped>
 p {
     margin: 0;
@@ -115,10 +116,9 @@ p {
 ul {
     padding: 0;
 }
-/* .task:hover {
-    transform: translateY(-1px);
-    box-shadow: #888 0 2px 5px;
-} */
+.task:hover {
+    cursor: grab;
+}
 .task-details {
     grid-column: 1 / -1;
     padding: 2px;
@@ -224,9 +224,9 @@ ul {
     padding: 3px 5px;
     grid-column: 1 / -1;
     grid-row: 1 / span 1;
+    color: #fff;
     background-color: #333;
     opacity: 0;
-    color: #fff;
 }
 .btn-panel:hover {
     opacity: .9;

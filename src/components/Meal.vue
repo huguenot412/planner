@@ -95,19 +95,16 @@
 </script>
 
 <style scoped>
-.meal-name {
-    padding: 3px;
-}
+
 p {
     margin: 0;
 }
 ul {
     padding: 0;
 }
-/* .meal:hover {
-    transform: translateY(-1px);
-    box-shadow: #888 0 2px 5px;
-} */
+.meal {
+    cursor: grab;
+}
 .meal-details {
     grid-column: 1 / -1;
     padding: 2px;
