@@ -37,7 +37,7 @@
 import Task from './Task';
 import Meal from './Meal';
 
-const uniqid = require('uniqid');
+// const uniqid = require('uniqid');
 
 export default {
     name: 'Day',
@@ -55,7 +55,7 @@ export default {
                     {
                         task: this.taskName, 
                         day: this.day.name,
-                        id: uniqid('task'),
+                        id: Symbol('task'),
                         completed: false,
                         users: [],
                         note: "",
@@ -72,21 +72,22 @@ export default {
                     {
                         name: this.mealName, 
                         day: this.day.name,
-                        id: uniqid('meal'),
+                        id: Symbol('meal'),
                         note: "",
                         type: "",
                         list: 'meals'
                     });
                 // clear the input
                 this.mealName = "";
-            }   
+            } 
         },
         dragOver: function($event) {
             $event.dataTransfer.dropEffect = "move";
         },
         drop: function($event) {
-            var data = JSON.parse($event.dataTransfer.getData("text/plain"));
-            this.$store.commit('changeDay', {item: data, day: this.day});
+            // var data = JSON.parse($event.dataTransfer.getData("text/plain"));
+            // this.$store.commit('changeDay', {item: data, day: this.day});
+            this.$store.commit('drop', this.day);
         }   
     },
     computed: {

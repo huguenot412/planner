@@ -94,9 +94,10 @@
             unassignUser: function(user) {
                 this.$store.commit('unassignUser', {task: this.task, user: user});
             },
-            startDrag: function($event) {;
-                var data = JSON.stringify(this.task);
-                $event.dataTransfer.setData("text/plain", data);
+            startDrag: function($event) {
+                // var data = JSON.stringify(this.task);
+                // $event.dataTransfer.setData("text/plain", data);
+                this.$store.commit('drag', this.task);
             } 
         },
         props: ['task'],

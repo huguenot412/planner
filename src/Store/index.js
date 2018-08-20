@@ -2,10 +2,11 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 Vue.use(Vuex);
-const uniqid = require('uniqid');
+// const uniqid = require('uniqid');
 
 const store = new Vuex.Store({
   state: {
+    currentDraggable: {},
     days: [
       {
         name: 'Monday',
@@ -36,13 +37,12 @@ const store = new Vuex.Store({
         type: 'weekend',
       },
     ],
-
     tasks: [],
     meals: [
       {
         name: 'Pommes de Terre au Four',
         day: 'Saturday',
-        id: uniqid('meal'),
+        id: Symbol('meal'),
         note: '',
         type: 'Dinner',
         list: 'meals'
@@ -50,7 +50,7 @@ const store = new Vuex.Store({
       {
         name: 'Yellow Curry Chicken',
         day: 'Monday',
-        id: uniqid('meal'),
+        id: Symbol('meal'),
         note: '',
         type: 'Dinner',
         list: 'meals'
@@ -58,7 +58,7 @@ const store = new Vuex.Store({
       {
         name: 'Crepes',
         day: 'Monday',
-        id: uniqid('meal'),
+        id: Symbol('meal'),
         note: '',
         type: 'Breakfast',
         list: 'meals'
@@ -66,7 +66,7 @@ const store = new Vuex.Store({
       {
         name: 'Soup',
         day: 'Monday',
-        id: uniqid('meal'),
+        id: Symbol('meal'),
         note: '',
         type: 'Lunch',
         list: 'meals'
@@ -74,7 +74,7 @@ const store = new Vuex.Store({
       {
         name: 'Green Salad',
         day: 'Wednesday',
-        id: uniqid('meal'),
+        id: Symbol('meal'),
         note: '',
         type: 'Lunch',
         list: 'meals'
@@ -166,6 +166,13 @@ const store = new Vuex.Store({
       const item = state[data.item.list].find(x => x.id === data.item.id);
       item.day = data.day.name;
     },
+    drag(state, item) {
+      state.currentDraggable = item;
+    },
+    drop(state, day) {
+      state.currentDraggable.day = day.name;
+      state.currentDraggable = {};
+    }
   },
 });
 

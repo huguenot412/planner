@@ -81,8 +81,9 @@
                 this.$store.commit('unassignUser', {meal: this.meal, user: user});
             },
             startDrag: function($event) {;
-                var data = JSON.stringify(this.meal);
-                $event.dataTransfer.setData("text/plain", data);
+                // var data = JSON.stringify(this.meal);
+                // $event.dataTransfer.setData("text/plain", data);
+                this.$store.commit('drag', this.meal);
             } 
         },
         props: ['meal'],
