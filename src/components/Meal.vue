@@ -1,5 +1,8 @@
 <template>
-    <li class="meal" draggable="true" v-on:dragstart="startDrag($event)"> 
+    <li class="meal" 
+        draggable v-on:dragstart="startDrag($event)" 
+        v-on:mousedown="grabbing"
+        v-on:mouseup="loosenGrip"> 
         <h3 class="meal-name" v-if="!editMode">{{meal.name}}</h3>
         <div class="btn-panel" v-if="!editMode">
             <i class="fas btn-list" 
@@ -84,7 +87,13 @@
                 // var data = JSON.stringify(this.meal);
                 // $event.dataTransfer.setData("text/plain", data);
                 this.$store.commit('drag', this.meal);
-            } 
+            },
+            grabbing: function(e) {
+                e.target.style.cursor = "grabbing";
+            },
+            loosenGrip: function(e) {
+                e.target.style.cursor = "unset";
+            }
         },
         props: ['meal'],
         components: {
