@@ -23,10 +23,18 @@ class Task {
             });
     }
 
-    delete() {
+    static getAllTasks() {
         const db = getDb();
-        db.collection('tasks')
-            .deleteOne({_id: this._id})
+        return db.collection('tasks')
+            .find()
+            .toArray()
+    }
+
+    static deleteByID(id) {
+        const db = getDb();
+        return db
+            .collection('tasks')
+            .deleteOne(id)
             .then(result => {
                 console.log(result);
             })
@@ -35,5 +43,6 @@ class Task {
             });
     }
 }
+
 
 module.exports = Task;

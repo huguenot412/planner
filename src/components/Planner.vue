@@ -20,12 +20,19 @@
 
 <script>
 import Day from './day';
+import axios from 'axios';
 export default {
   name: 'Planner',
   data() {
     return {
       days: this.$store.state.days
     };
+  },
+  created: function() {
+    axios.get('http://localhost:3000/api/tasks')
+      .then(result => {
+        this.$store.commit('getAllTasks', result.data);
+      });
   },
   components: {
     Day

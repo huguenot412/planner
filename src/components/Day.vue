@@ -63,13 +63,12 @@ export default {
                 // add new task to tasks array in Store
                 axios.post('http://localhost:3000/api/tasks', { taskName: this.taskName, day: this.day.name })
                     .then((res) => {
-                        console.log(res.data);
                         this.$store.commit('addNewTask', res.data);
                     });
                 this.taskName = "";
             }   
         },
-        showSearchResults: function() {
+        showSearchResults: function() { 
             
             this.searchItems = this.$store.state.meals
                 .filter((meal) => {

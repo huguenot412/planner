@@ -6,7 +6,6 @@
 
 <script>
     import Task from './Task';
-
     import axios from 'axios';
     
     export default {
@@ -18,13 +17,14 @@
        },
        methods: {
            deleteItem: function(){
-               this.$store.commit('deleteItem', { array: this.array, id: this.item.id });
+                axios.delete(`http://localhost:3000/api/tasks/${this.item._id}`);
+                this.$store.commit('deleteItem', { array: this.array, id: this.item._id });
            }
        },
        props: ['item','array']
     }
 </script>
-
+ 
 <style scoped>
 
 .btn-remove {

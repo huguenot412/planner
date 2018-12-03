@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import axios from 'axios';
+
 Vue.use(Vuex);
 // const uniqid = require('uniqid');
 
@@ -144,6 +146,9 @@ const store = new Vuex.Store({
     ],
   },
   mutations: {
+    getAllTasks(state, allTasks)  {
+      state.tasks = allTasks;
+    },
     addNewTask(state, task) {
       state.tasks.push(task);
     },
@@ -151,7 +156,7 @@ const store = new Vuex.Store({
       state.meals.push(meal);
     },
     deleteItem(state, item) {
-      state[item.array] = state[item.array].filter(x => x.id !== item.id);
+      state[item.array] = state[item.array].filter(x => x._id !== item.id);
     },
     checkOff(state, item) {
       item.completed = !item.completed;
