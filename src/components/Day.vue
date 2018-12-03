@@ -42,6 +42,10 @@
 import Task from './Task';
 import Meal from './Meal';
 
+import axios from 'axios';
+
+// const task = require('../../models/task').Task;
+
 // const uniqid = require('uniqid');
 
 export default {
@@ -57,17 +61,11 @@ export default {
         createNewTask: function(e) {
             if( this.taskName !== "" && ( e.type === 'click' || e.keyCode === 13 ) ) {
                 // add new task to tasks array in Store
-                this.$store.commit('addNewTask', 
-                    {
-                        task: this.taskName, 
-                        day: this.day.name,
-                        id: Symbol('task'),
-                        completed: false,
-                        users: [],
-                        note: "",
-                        list: 'tasks'
+                axios.post('http://localhost:3000/api/tasks', { taskName: this.taskName, day: this.day.name })
+                    .then((res) => {
+                        console.log(res.data);
+                        this.$store.commit('addNewTask', res.data);
                     });
-                // clear the input
                 this.taskName = "";
             }   
         },

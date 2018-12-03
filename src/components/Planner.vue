@@ -37,7 +37,7 @@ export default {
 <style scoped>
 .planner-container {
   display: grid;
-  grid-template-columns: 100px 1fr;
+  grid-template-columns: 80px 1fr;
 }
 .header {
   height: 80px;
@@ -63,14 +63,14 @@ export default {
   color: #fff;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: repeat(auto-fill, 100px);
+  grid-template-rows: repeat(auto-fill, 50px);
 }
 .side-nav i {
   justify-self: center;
   align-self: center;
-  width: 80px;
+  width: 60px;
   padding: 10px;
-  font-size: 30px;
+  font-size: 20px;
 }
 .side-nav i:hover {
   color: #ff5252;

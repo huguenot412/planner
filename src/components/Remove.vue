@@ -5,6 +5,10 @@
 </template>
 
 <script>
+    import Task from './Task';
+
+    import axios from 'axios';
+    
     export default {
        name: 'Remove',
        data() {
