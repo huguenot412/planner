@@ -19,12 +19,17 @@
         </div>
         <div class="panel meals-container">
             <h2 class="category">Meals</h2>
-            <div class="new-item-input">
-                <input  type="text" 
-                        placeholder="New meal" 
-                        v-model="mealName"
-                        v-on:keyup="createNewMeal">
-                <i class="fas fa-plus btn-add-icon" v-on:click="createNewMeal"></i>
+            <div class="search-container">
+                <div class="new-item-input">
+                    <input  type="text" 
+                            placeholder="New meal" 
+                            v-model="mealName"
+                            v-on:keyup="createNewMeal">
+                    <i class="fas fa-plus btn-add-icon" v-on:click="createNewMeal"></i>
+                </div>
+                <div class="search-list" v-if="searchItems.length > 0">
+                    <div class="search-item" v-for="item in searchItems">{{item.name}}</div> 
+                </div>
             </div>
             <ul>
                 <Meal v-for="meal in todaysMeals" :key="meal.id" :meal="meal"></Meal>
@@ -44,7 +49,8 @@ export default {
     data() {
         return {
             taskName: "",
-            mealName: ""
+            mealName: "",
+            searchItems: []
         }  
     },
     methods: {
@@ -64,8 +70,17 @@ export default {
                 // clear the input
                 this.taskName = "";
             }   
-        },     
+        },
+        showSearchResults: function() {
+            
+            this.searchItems = this.$store.state.meals
+                .filter((meal) => {
+                    return meal.name.toLowerCase().includes(this.mealName);
+                });
+            if(this.mealName === '') { this.searchItems = [] };
+        },
         createNewMeal: function(e) {
+            console.log(e.type);
             if( this.mealName !== "" && ( e.type === 'click' || e.keyCode === 13 ) ) {
                 // add new meal to meals array in Store
                 this.$store.commit('addNewMeal', 
@@ -79,7 +94,9 @@ export default {
                     });
                 // clear the input
                 this.mealName = "";
-            } 
+            } else if ( e.type === 'keyup' && e.keyCode !== 13 ) {
+                this.showSearchResults();
+            }
         },
         dragOver: function($event) {
             $event.dataTransfer.dropEffect = "move";
@@ -200,5 +217,28 @@ input[type="text"] {
     -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
     -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+.search-container {
+    position: relative;
+    height: 50px;
+    width: 100%;
+}
+.search-list {
+    position: absolute;
+    top: 34px;
+    left: 0;
+    background-color: #fff;
+    padding: 10px;
+    width: 100%;
+    text-align: left;
+    z-index: 100;
+    box-shadow: #333 0px 2px 8px 0px;
+}
+.search-item {
+    padding: 10px;
+    width: 100%;
+}
+.search-item:hover {
+    background-color: #efefef;
 }
 </style>
