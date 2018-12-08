@@ -142,12 +142,124 @@ const store = new Vuex.Store({
         meals: [],
         activities: [],
         color: '#9E55BC',
-      },
+      }
     ],
+    account: {
+      name: 'Snow Family',
+      tasks: [],
+      meals: [
+        {
+          name: 'Pommes de Terre au Four',
+          day: 'Saturday',
+          id: Symbol('meal'),
+          note: '',
+          type: 'Dinner',
+          list: 'meals'
+        },
+        {
+          name: 'Yellow Curry Chicken',
+          day: 'Monday',
+          id: Symbol('meal'),
+          note: '',
+          type: 'Dinner',
+          list: 'meals'
+        },
+        {
+          name: 'Crepes',
+          day: 'Monday',
+          id: Symbol('meal'),
+          note: '',
+          type: 'Breakfast',
+          list: 'meals'
+        },
+        {
+          name: 'Soup',
+          day: 'Monday',
+          id: Symbol('meal'),
+          note: '',
+          type: 'Lunch',
+          list: 'meals'
+        },
+        {
+          name: 'Green Salad',
+          day: 'Wednesday',
+          id: Symbol('meal'),
+          note: '',
+          type: 'Lunch',
+          list: 'meals'
+        },
+      ],
+      recipes: [
+        {
+          name: 'Crepes',
+          ingredients: [
+            {
+              name: 'sugar',
+              amount: 1,
+              unit: 'Tbsp',
+            },
+            {
+              name: 'flour',
+              amount: 250,
+              unit: 'g',
+            },
+            {
+              name: 'milk',
+              amount: 250,
+              unit: 'ml',
+            },
+            {
+              name: 'eggs',
+              amount: 4,
+              unit: null,
+            },
+          ],
+          prepTime: 5,
+          cookingtime: 1,
+          directions: [
+            'Mix ingredients',
+            'Heat crepe pan and apply butter or oil',
+            'cook on crepe pan',
+          ],
+          note: 'Simple, quick and delicious!',
+          id: Symbol('recipe'),
+        },
+      ],
+      users: [
+        {
+          name: 'Chris',
+          id: Symbol('user'),
+          tasks: [],
+          meals: [],
+          activities: [],
+          color: '#3eaf7c',
+        },
+        {
+          name: 'Olivia',
+          id: Symbol('user'),
+          tasks: [],
+          meals: [],
+          activities: [],
+          color: '#ff5252',
+        },
+        {
+          name: 'Lea',
+          id: Symbol('user'),
+          tasks: [],
+          meals: [],
+          activities: [],
+          color: '#9E55BC',
+        },
+      ],
+    }
+    
   },
   mutations: {
     getAllTasks(state, allTasks)  {
       state.tasks = allTasks;
+    },
+    getAllMeals(state, allMeals)  {
+      state.meals = allMeals;
     },
     addNewTask(state, task) {
       state.tasks.push(task);

@@ -77,18 +77,13 @@ export default {
             if(this.mealName === '') { this.searchItems = [] };
         },
         createNewMeal: function(e) {
-            console.log(e.type);
             if( this.mealName !== "" && ( e.type === 'click' || e.keyCode === 13 ) ) {
                 // add new meal to meals array in Store
-                this.$store.commit('addNewMeal', 
-                    {
-                        name: this.mealName, 
-                        day: this.day.name,
-                        id: Symbol('meal'),
-                        note: "",
-                        type: "",
-                        list: 'meals'
+                axios.post('http://localhost:3000/api/meals', { name: this.mealName, day: this.day.name })
+                    .then((res) => {
+                        this.$store.commit('addNewMeal', res.data);
                     });
+
                 // clear the input
                 this.mealName = "";
             } else if ( e.type === 'keyup' && e.keyCode !== 13 ) {
@@ -99,12 +94,13 @@ export default {
             $event.dataTransfer.dropEffect = "move";
         },
         drop: function($event) {
-            // var data = JSON.parse($event.dataTransfer.getData("text/plain"));
-            // this.$store.commit('changeDay', {item: data, day: this.day});
-            this.$store.commit('drop', this.day);
+            console.log(this.$store.state.currentDraggable.list);
+            axios.post(`http://localhost:3000/api/update_${this.$store.state.currentDraggable.list}`, {item: this.$store.state.currentDraggable});
+            this.$store.commit('drop', this.day);           
         }   
     },
     computed: {
+        // Need to refactor with Vue Getters
         todaysTasks: function() {
             return this.$store.state.tasks
                 .filter( task => task.day === this.day.name )

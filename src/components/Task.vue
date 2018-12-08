@@ -53,6 +53,7 @@
 <script>
     import Remove from './Remove';
     import Complete from './Complete'; 
+    import axios from 'axios';
     export default {
         name: 'Task',
         data() {
@@ -81,6 +82,7 @@
                 }
             },
             assignUser: function(user) {
+                axios.post('http://localhost:3000/api/update_task', {task: this.task});
                 this.$store.commit('assignUser', {task: this.task, user: user});
             },
             toggleNoteEdit: function(e){
@@ -116,9 +118,9 @@ p {
 ul {
     padding: 0;
 }
-.task:hover {
+/* .task:hover {
     cursor: grab;
-}
+} */
 .task-details {
     grid-column: 1 / -1;
     padding: 2px;
@@ -250,7 +252,6 @@ ul {
     padding-top: 1px;
 }
 .btn-unassign:hover {
-    transform-origin: center;
-    transform: rotateY(-180deg);   
+    color: #333;  
 }
 </style>

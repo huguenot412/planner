@@ -17,7 +17,7 @@
        },
        methods: {
            deleteItem: function(){
-                axios.delete(`http://localhost:3000/api/tasks/${this.item._id}`);
+                axios.delete(`http://localhost:3000/api/${this.array}/${this.item._id}`);
                 this.$store.commit('deleteItem', { array: this.array, id: this.item._id });
            }
        },

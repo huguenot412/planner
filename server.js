@@ -7,6 +7,7 @@ const mongoConnect = require('./util/database').mongoConnect;
 const mongodb = require('mongodb');
 
 const Task = require('./models/task');
+const Meal = require('./models/meal');
 
 const app = express();
 
@@ -28,23 +29,48 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/api/tasks', (req, res, next) => {
-    Task.getAllTasks()
-        .then(result => {
-            console.log(result);
-            res.status(201).json(result);
-        });   
-});
-
 app.post('/api/tasks', (req, res, next) => {  
     const data = req.body;
     const task = new Task(data.taskName, data.day);
     task.save();
     res.status(201).json(task); 
-    next();
+});
+
+app.post('/api/meals', (req, res, next) => {  
+    const data = req.body;
+    const meal = new Meal(data.name, data.day);
+    meal.save();
+    res.status(201).json(meal); 
+});
+
+app.get('/api/tasks', (req, res, next) => {
+    Task.getAllTasks()
+        .then(result => {
+            res.status(201).json(result);
+        });   
+});
+
+app.get('/api/meals', (req, res, next) => {
+    Meal.getAllMeals()
+        .then(result => {
+            res.status(201).json(result);
+        });   
+});
+
+app.post('/api/update_tasks', (req, res, next) => {
+    const task = req.body.item;
+    Task.updateTask(task);
+});
+
+app.post('/api/update_meals', (req, res, next) => {
+    const meal = req.body.item;
+    Meal.updateMeal(meal);
 });
 
 app.delete('/api/tasks/:id', (req, res, next) => {  
-    Task.deleteByID({_id: new mongodb.ObjectId(req.params.id)});
-    next();
+    Task.deleteByID(req.params.id);
+});
+
+app.delete('/api/meals/:id', (req, res, next) => {  
+    Meal.deleteByID(req.params.id);
 });

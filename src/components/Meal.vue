@@ -31,6 +31,17 @@
                             v-if="noteEdit"
                             v-on:keyup="toggleNoteEdit"></textarea>
             </div>
+            <div class="meal-types">
+                <p>Set meal type:</p>
+                <ul>
+                    <li class="meal-label breakfast" 
+                        @click="setMealType('Breakfast')">Breakfast</li>
+                    <li class="meal-label lunch" 
+                        @click="setMealType('Lunch')">Lunch</li>
+                    <li class="meal-label dinner" 
+                        @click="setMealType('Dinner')">Dinner</li>
+                </ul>
+            </div>
         </div>
         <div class="meal-type" 
              v-bind:style ="{backgroundColor: mealColor()}">
@@ -93,6 +104,9 @@
             },
             loosenGrip: function(e) {
                 e.target.style.cursor = "unset";
+            },
+            setMealType(mealType) {
+                this.meal.type = mealType;
             }
         },
         props: ['meal'],
@@ -113,6 +127,21 @@ ul {
 }
 .meal {
     cursor: grab;
+}
+.meal-label {
+    display: inline-block;
+    color: #fff;
+    padding: 0 3px;
+    margin: 3px;
+}
+.breakfast {
+    background-color: #3eaf7c;
+}
+.lunch {
+    background-color: #ff5252;
+}
+.dinner {
+    background-color: #9E55BC;
 }
 .meal-details {
     grid-column: 1 / -1;

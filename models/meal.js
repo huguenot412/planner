@@ -1,20 +1,19 @@
 const getDb = require('../util/database').getDb;
 const mongodb = require('mongodb');
 
-class Task {
-    constructor(task, day, id) {
-        this.task = task;
+class Meal {
+    constructor(name, day, id) {
+        this.name = name;
         this.day = day;
-        this.completed = false;
-        this.users = [];
         this.note = "";
-        this.list = 'tasks';
+        this.list = 'meals';
+        this.type = "",
         this._id = id;
     }
 
     save() {
         const db = getDb();
-        db.collection('tasks')
+        db.collection('meals')
             .insertOne(this)
             .then(result => {
                 console.log(result);
@@ -24,22 +23,22 @@ class Task {
             });
     }
 
-    static updateTask(task) {
-        task._id = new mongodb.ObjectId(task._id);
+    static updateMeal(meal) {
+        meal._id = new mongodb.ObjectId(meal._id);
         const db = getDb();
-        db.collection('tasks')
-            .updateOne({ _id: task._id }, { $set: task })
+        db.collection('meals')
+            .updateOne({ _id: meal._id }, { $set: meal })
             .then(result => {
-                console.log("Updated task");
+                console.log("Updated meal");
             })
             .catch(err => {
                 console.log("Error meatbag. Go home and rethink your life.", err);
             });
     }
 
-    static getAllTasks() {
+    static getAllMeals() {
         const db = getDb();
-        return db.collection('tasks')
+        return db.collection('meals')
             .find()
             .toArray()
     }
@@ -47,7 +46,7 @@ class Task {
     static deleteByID(id) {
         const db = getDb();
         return db
-            .collection('tasks')
+            .collection('meals')
             .deleteOne({_id: new mongodb.ObjectId(id)})
             .then(result => {
                 console.log(result);
@@ -59,4 +58,4 @@ class Task {
 }
 
 
-module.exports = Task;
+module.exports = Meal;
