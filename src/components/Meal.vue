@@ -53,6 +53,7 @@
 <script>
     import Remove from './Remove';
     import Complete from './Complete'; 
+    import axios from 'axios'
     export default {
         name: 'meal',
         data() {
