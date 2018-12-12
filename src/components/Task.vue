@@ -190,6 +190,7 @@ ul {
     grid-template-columns: 1fr 50px;
 }
 .task-edit input {
+    width: 95%;
     display: inline-block;
     box-sizing: border-box;
     height: 26px;
@@ -248,8 +249,8 @@ ul {
 .btn-unassign {
     justify-self: center;
     align-items: center;
-    transition: .6s cubic-bezier(.53,-0.52,.57,1.5);
-    padding-top: 1px;
+    transition: .2s ease-in-out;
+    padding-top: 2px;
 }
 .btn-unassign:hover {
     color: #333;  

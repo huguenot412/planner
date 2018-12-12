@@ -37,11 +37,17 @@ export default {
 <style scoped>
 
 .week {
+  width: 100%;
+  min-height: 100%;
+  /* display: flex;
+  align-items: stretch;
+  justify-content: space-around; */
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, auto);
   grid-column-gap: 5px;
-  margin: 0 5px;
   grid-column: 2 / -1;
+  padding: 5px;
+  box-sizing: border-box;
 }
 
 

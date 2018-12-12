@@ -2,23 +2,35 @@
   <div id="app">
     <div id="planner" class="planner-container">
       <div class="header">
-        <h1 class="header-title">Weekly Planner</h1>
+        <h1 class="header-title">{{viewTitle}}</h1>
       </div>
       <div class="side-nav">
-        <router-link to="/planner"><i class="far fa-calendar-alt btn-calendar"></i></router-link>
-        <router-link to="/tasks"><i class="fas fa-tasks btn-tasks"></i></router-link>
-        <router-link to="/users"><i class="fas fa-users btn-users"></i></router-link>
-        <router-link to="/recipes"><i class="fas fa-utensils btn-recipes"></i></router-link>
-        <router-link to="/activities"><i class="far fa-clock btn-activities"></i></router-link>
+          <router-link to="/planner"><i class="far fa-calendar-alt btn-calendar" @click="updateViewTitle('Planner')"></i></router-link>
+          <router-link to="/tasks"><i class="fas fa-tasks btn-tasks" @click="updateViewTitle('Tasks')"></i></router-link>
+          <router-link to="/users"><i class="fas fa-users btn-users" @click="updateViewTitle('Users')"></i></router-link>
+          <router-link to="/recipes"><i class="fas fa-utensils btn-recipes" @click="updateViewTitle('Recipes')"></i></router-link>
+          <router-link to="/activities"><i class="far fa-clock btn-activities" @click="updateViewTitle('Activities')"></i></router-link>
       </div>
-      <router-view/>
+      <div class="view"><router-view/></div>
     </div>
   </div>
 </template>
 
 <script>
+
 export default {
   name: 'App',
+  data() {
+    return {
+      viewTitle: "Planner"
+    }
+  },
+  methods: {
+    updateViewTitle: function(title) {
+      this.viewTitle = title;
+      console.log('view title updated');
+    }
+  }
 };
 </script>
 
@@ -42,19 +54,20 @@ body {
 }
 .planner-container {
   display: grid;
-  grid-template-columns: 80px 1fr;
+  grid-template-columns: 60px 1fr;
+  grid-template-rows: 80px 1fr;
 }
 .header {
   height: 80px;
   padding: 0 0 0 40px;
-  background-image: linear-gradient(to right,rgba(62,175,124,.5),rgba(62,175,124,.5)), url("./assets/planner.jpg");
+  /* background-image: linear-gradient(to right,rgba(62,175,124,.5),rgba(62,175,124,.5)), url("./assets/planner.jpg"); */
   background-size: cover;
   background-position: center;
-  margin-bottom: 5px;
   display: grid;
   justify-items: start; 
   align-items: center;
-  grid-column: 1 / -1;
+  grid-column: 2 / -1;
+  grid-row: 1 / span 1;
 }
 .header-title {
   font-size: 50px;
@@ -63,12 +76,12 @@ body {
 }
 .side-nav {
   grid-column: 1 / span 1;
-  grid-row: 2 / last-line;
+  grid-row: 1 / -1;
   background-color: #3eaf7c;
   color: #fff;
-  display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: repeat(auto-fill, 50px);
+  min-height: 100vh;
+  padding-top: 10px;
 }
 .side-nav i {
   justify-self: center;
@@ -79,6 +92,10 @@ body {
 }
 .side-nav i:hover {
   color: #ff5252;
+}
+.view {
+  grid-column: 2 / -1;
+  grid-row: 2 / span 1;
 }
 a,
 a:visited,

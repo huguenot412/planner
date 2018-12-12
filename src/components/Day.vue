@@ -1,5 +1,7 @@
 <template>
-    <div class="day" v-on:dragover.prevent="dragOver($event)" v-on:drop.prevent="drop($event)">
+    <div class="day" 
+        v-on:dragover.prevent="dragOver($event)" 
+        v-on:drop.prevent="drop($event)">
         <h1 class="day-name">{{day.name}}</h1>
         <div class="panel tasks-container">
             <h2 class="category">Tasks</h2>
@@ -159,7 +161,7 @@ h3 {
   border: 1px solid #888;
   border-radius: 3px;
   box-shadow: #888 0 2px 2px;
-  min-height: 90vh;
+  /* flex: 1; */
 }
 .day-name {
     font-family: 'Dancing Script', cursive;
@@ -178,6 +180,7 @@ ul {
     padding-left: 20px;
 }
 .new-item-input {
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr 40px;
 }
@@ -210,11 +213,12 @@ input[type="text"] {
     -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
     -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    width: 95%;
 }
 .search-container {
     position: relative;
     height: 50px;
-    width: 100%;
+
 }
 .search-list {
     position: absolute;
