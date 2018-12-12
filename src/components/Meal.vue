@@ -153,7 +153,7 @@ ul {
     color: #fff;
     padding-left: 3px;
     display: grid;
-    grid-template-columns: 1fr 20px;
+    grid-template-columns: 1fr;
 }
 .user-name {
     display: inline-block;
@@ -201,12 +201,14 @@ ul {
     background-color: #ff5252;
 }
 .meal-edit {
+    width: 100%;
     grid-column: 1 / -1;
     justify-self: left;
     display: grid;
     grid-template-columns: 1fr 50px;
 }
 .meal-edit input {
+    width: 95%;
     display: inline-block;
     box-sizing: border-box;
     height: 26px;

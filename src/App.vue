@@ -5,11 +5,13 @@
         <h1 class="header-title">{{viewTitle}}</h1>
       </div>
       <div class="side-nav">
-          <router-link to="/planner"><i class="far fa-calendar-alt btn-calendar" @click="updateViewTitle('Planner')"></i></router-link>
-          <router-link to="/tasks"><i class="fas fa-tasks btn-tasks" @click="updateViewTitle('Tasks')"></i></router-link>
-          <router-link to="/users"><i class="fas fa-users btn-users" @click="updateViewTitle('Users')"></i></router-link>
-          <router-link to="/recipes"><i class="fas fa-utensils btn-recipes" @click="updateViewTitle('Recipes')"></i></router-link>
-          <router-link to="/activities"><i class="far fa-clock btn-activities" @click="updateViewTitle('Activities')"></i></router-link>
+          <div class="side-nav-links">
+            <router-link to="/planner"><i class="far fa-calendar-alt btn-calendar" @click="updateViewTitle('Planner')"></i></router-link>
+            <router-link to="/tasks"><i class="fas fa-tasks btn-tasks" @click="updateViewTitle('Tasks')"></i></router-link>
+            <router-link to="/users"><i class="fas fa-users btn-users" @click="updateViewTitle('Users')"></i></router-link>
+            <router-link to="/recipes"><i class="fas fa-utensils btn-recipes" @click="updateViewTitle('Recipes')"></i></router-link>
+            <router-link to="/activities"><i class="far fa-clock btn-activities" @click="updateViewTitle('Activities')"></i></router-link>
+          </div>
       </div>
       <div class="view"><router-view/></div>
     </div>
@@ -56,6 +58,7 @@ body {
   display: grid;
   grid-template-columns: 60px 1fr;
   grid-template-rows: 80px 1fr;
+  /* background: linear-gradient(to right,rgba(62,175,124,1),rgba(62,175,124,0)); */
 }
 .header {
   height: 80px;
@@ -92,6 +95,10 @@ body {
 }
 .side-nav i:hover {
   color: #ff5252;
+}
+.side-nav-links {
+  position: sticky;
+  top: 0;
 }
 .view {
   grid-column: 2 / -1;

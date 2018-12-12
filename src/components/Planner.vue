@@ -50,6 +50,17 @@ export default {
   box-sizing: border-box;
 }
 
+@media screen and (max-width: 1199px) {
+  .week {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+@media screen and (max-width: 769px) {
+  .week {
+    grid-template-columns: 1fr;
+  }
+}
+
 
 
 </style>

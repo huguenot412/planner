@@ -16,9 +16,6 @@
                 <Task v-for="task in todaysTasks" :key="task.id" :task="task"></Task>
             </ul>
         </div>
-        <div class="panel activities-container">
-            <h2 class="category">Activities</h2>
-        </div>
         <div class="panel meals-container">
             <h2 class="category">Meals</h2>
             <div class="search-container">
@@ -37,6 +34,9 @@
                 <Meal v-for="meal in todaysMeals" :key="meal.id" :meal="meal"></Meal>
             </ul>
         </div>
+        <!-- <div class="panel activities-container">
+            <h2 class="category">Activities</h2>
+        </div> -->
     </div>
 </template>
 
@@ -161,6 +161,8 @@ h3 {
   border: 1px solid #888;
   border-radius: 3px;
   box-shadow: #888 0 2px 2px;
+  background: #fff;
+  margin-bottom: 10px;
   /* flex: 1; */
 }
 .day-name {
